@@ -50,19 +50,24 @@ int	ft_type(char *str)
 	return (res);
 }
 
-void	ft_write_line(char *str, int format, ...)
+/*void	ft_write_line(char *str, int format, ...)
 {
 	if (format == _INT)
-		ft_putnbr_fd(str, 1);
-}
+		ft_putnbr_fd(format, 1);
+}*/
 
 int main(void)
 {
 	char	*str = "line %d : [%s]\n";
 	char	**split;
 	int		i = 0;
-
 	split = ft_split(str, '%');
-
+	while (split[i])
+	{
+		printf("i = %d -> [%s]\n", ft_type(split[i]), split[i]);
+		free(split[i]);
+		i++;
+	}
+	free(split);
 	return (0);
 }

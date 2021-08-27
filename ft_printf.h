@@ -18,6 +18,7 @@
 # define _STRING	2
 # define _PTR_HEX	3
 
+# include <stdarg.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
