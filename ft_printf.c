@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "libft/libft.h"
 
 int	ft_count_args(const char *str)
 {
@@ -56,18 +55,24 @@ int	ft_type(char *str)
 		ft_putnbr_fd(format, 1);
 }*/
 
-int main(void)
+int ft_printf(const char *str, ...)
 {
-	char	*str = "line %d : [%s]\n";
 	char	**split;
-	int		i = 0;
+	int		i;
+	int		nbr_param;
+	va_list	lst_param;
+
+	va_start(lst_param, str);
+	i = 0;
 	split = ft_split(str, '%');
+	nbr_param = ft_type(split[i]);
 	while (split[i])
 	{
-		printf("i = %d -> [%s]\n", ft_type(split[i]), split[i]);
+		printf("i = %d -> [%s]\n", nbr_param, split[i]);
 		free(split[i]);
 		i++;
 	}
 	free(split);
+	va_end(lst_param);
 	return (0);
 }

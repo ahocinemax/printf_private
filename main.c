@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahocine <ahocine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/26 21:39:32 by ahocine           #+#    #+#             */
-/*   Updated: 2021/08/26 21:39:44 by ahocine          ###   ########.fr       */
+/*   Created: 2021/08/27 10:39:07 by ahocine           #+#    #+#             */
+/*   Updated: 2021/08/27 10:39:09 by ahocine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# define _INT		0
-# define _CHAR		1
-# define _STRING	2
-# define _PTR_HEX	3
-
-# include "../libft_private/libft.h"
-# include <stdarg.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
-
-int ft_printf(const char *str, ...);
-int	ft_count_args(const char *str);
-int	ft_type(char *str);
-
-#endif	
+int	main(void)
+{
+	char	*str = "line %d : [%s]\n";
+	ft_printf(str, 1, "bonsoir");
+	return (0);
+}
