@@ -15,6 +15,7 @@
 int	main(void)
 {
 	char	*str = "line %d : [%s]\n";
+
 	ft_printf(str, 1, "bonsoir");
 	return (0);
 }

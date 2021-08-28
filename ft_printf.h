@@ -24,8 +24,9 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-int ft_printf(const char *str, ...);
-int	ft_count_args(const char *str);
-int	ft_type(char *str);
+void	ft_write_line(char *split, va_list lst_param);
+int		ft_printf(const char *str, ...);
+int		ft_count_args(const char *str);
+int		ft_type(char **str);
 
 #endif	
