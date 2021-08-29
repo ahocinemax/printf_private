@@ -13,10 +13,15 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# define _INT		0
-# define _CHAR		1
-# define _STRING	2
-# define _PTR_HEX	3
+# define _INT			0
+# define _CHAR			1
+# define _STRING		2
+# define _NBR_HEX_MIN	3
+# define _NBR_HEX_MAX	4
+# define _PTR_HEX		5
+# define _STD_OUT		1
+# define BASE16_MIN		"0123456789abcdef"
+# define BASE16_MAJ 	"0123456789ABCDEF"
 
 # include "../libft_private/libft.h"
 # include <stdarg.h>
@@ -24,9 +29,12 @@
 # include <stdio.h>
 # include <fcntl.h>
 
+char	**ft_split_printf(const char *str, char sep);
 void	ft_write_line(char *split, va_list lst_param);
+void	ft_putnbr_hexa(long long nbr, char c, int fd);
+void	ft_putnbr_ptr(long long nbr, int fd);
 int		ft_printf(const char *str, ...);
-int		ft_count_args(const char *str);
-int		ft_type(char **str);
+int		ft_count_flags(const char *str);
+int		ft_flags(char **str);
 
 #endif	

@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_count_args(const char *str)
+int	ft_count_flags(const char *str)
 {
 	size_t	i;
 	int		res;
@@ -30,7 +30,7 @@ int	ft_count_args(const char *str)
 	return (res);
 }
 
-int	ft_type(char **str)
+int	ft_flags(char **str)
 {
 	int	res;
 
@@ -40,7 +40,11 @@ int	ft_type(char **str)
 		res = _CHAR;
 	else if (**str == 's')
 		res = _STRING;
-	else if (**str == 'p' || **str == 'x')
+	else if (**str == 'x')
+		res = _NBR_HEX_MIN;
+	else if (**str == 'X')
+		res = _NBR_HEX_MAX;
+	else if (**str == 'p')
 		res = _PTR_HEX;
 	else
 		res = -1;
@@ -55,24 +59,20 @@ void	ft_write_line(char *split, va_list lst_param)
 	int	i;
 
 	i = 0;
-	typ_param = ft_type(&split);
+	typ_param = ft_flags(&split);
 	if (typ_param == _CHAR)
-	{
-		ft_putchar_fd(va_arg(lst_param, int), 1);
-	}
+		ft_putchar_fd((int)va_arg(lst_param, int), _STD_OUT);
 	else if (typ_param == _INT)
-	{
-		ft_putnbr_fd(va_arg(lst_param, int), 1);
-	}
+		ft_putnbr_fd(va_arg(lst_param, int), _STD_OUT);
 	else if (typ_param == _STRING)
-	{
-		ft_putstr_fd(va_arg(lst_param, char *), 1);
-	}
+		ft_putstr_fd(va_arg(lst_param, char *), _STD_OUT);
+	else if (typ_param == _NBR_HEX_MIN)
+		ft_putnbr_hexa(va_arg(lst_param, long), 'x', _STD_OUT);
+	else if (typ_param == _NBR_HEX_MAX)
+		ft_putnbr_hexa(va_arg(lst_param, long), 'X', _STD_OUT);
 	else if (typ_param == _PTR_HEX)
-	{
-		ft_putnbr_fd(va_arg(lst_param, int), 1);
-	}
-	ft_putstr_fd(split, 1);
+		ft_putnbr_ptr(va_arg(lst_param, void *), _STD_OUT);
+	ft_putstr_fd(split, _STD_OUT);
 	i++;
 }
 
@@ -85,11 +85,12 @@ int	ft_printf(const char *str, ...)
 
 	va_start(lst_param, str);
 	i = 0;
-	split = ft_split(str, '%');
-	nbr_param = ft_count_args(str) + 1;
+	split = ft_split_printf(str, '%');
+	nbr_param = ft_count_flags(str) + 1;
 	while (split[i] && i < nbr_param)
 	{
-		ft_write_line(split[i], lst_param);
+		if (lst_param != 0)
+			ft_write_line(split[i], lst_param);
 		free(split[i]);
 		i++;
 	}
