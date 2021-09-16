@@ -23,11 +23,11 @@
 # define BASE16_MIN		"0123456789abcdef"
 # define BASE16_MAJ 	"0123456789ABCDEF"
 
-# include "../libft_private/libft.h"
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <stdlib.h>
 
 char	**ft_split_printf(const char *str, char sep);
 void	ft_write_line(char *split, va_list lst_param);
@@ -35,6 +35,10 @@ void	ft_putnbr_hexa(long long nbr, char c, int fd);
 void	ft_putnbr_ptr(long long nbr, int fd);
 int		ft_printf(const char *str, ...);
 int		ft_count_flags(const char *str);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putnbr_fd(int n, int fd);
+int		ft_strlen(const char *str);
 int		ft_flags(char **str);
 
 #endif	

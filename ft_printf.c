@@ -55,8 +55,9 @@ int	ft_flags(char **str)
 
 void	ft_write_line(char *split, va_list lst_param)
 {
-	int	typ_param;
-	int	i;
+	int		typ_param;
+	int		i;
+	long	ptr;
 
 	i = 0;
 	typ_param = ft_flags(&split);
@@ -71,7 +72,11 @@ void	ft_write_line(char *split, va_list lst_param)
 	else if (typ_param == _NBR_HEX_MAX)
 		ft_putnbr_hexa(va_arg(lst_param, long), 'X', _STD_OUT);
 	else if (typ_param == _PTR_HEX)
-		ft_putnbr_ptr(va_arg(lst_param, void *), _STD_OUT);
+	{
+		ptr = va_arg(lst_param, long);
+		ft_putstr_fd("0x", _STD_OUT);
+		ft_putnbr_ptr(ptr, _STD_OUT);
+	}
 	ft_putstr_fd(split, _STD_OUT);
 	i++;
 }

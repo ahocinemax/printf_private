@@ -18,8 +18,8 @@ int	main(void)
 	int		i = 4;
 	char	**ptr = &line;
 
-	ft_printf("line%%95 %d : \"%s\" %p", i, line, ptr);
+	ft_printf("line%%95 %d : \"%s\" %p %%%%", i, line, ptr);
 	ft_putchar_fd('\n', _STD_OUT);
-	printf("line%%95 %d : \"%s\" %p\n", i, line, ptr);
+	printf("line%%95 %d : \"%s\" %p %%%%\n", i, line, ptr);
 	return (0);
 }
