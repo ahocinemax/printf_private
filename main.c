@@ -14,12 +14,19 @@
 
 int	main(void)
 {
-	char	*line = "bonsoir";
-	int		i = 4;
-	char	**ptr = &line;
+	char	**res;
+	int		i;
 
-	ft_printf("line%%95 %d : \"%s\" %p %%%%", i, line, ptr);
-	ft_putchar_fd('\n', _STD_OUT);
-	printf("line%%95 %d : \"%s\" %p %%%%\n", i, line, ptr);
+	i = 0;
+	res = ft_split_printf("[Got] : %%\n", '%');
+	while (res[i])
+	{
+		ft_printf("[%s]\n", res[i]);
+		free(res[i]);
+		i++;
+	}
+	free(res);
+	//printf("[Got] : %%\n");
+	//printf("[Expected] : %%\n");
 	return (0);
 }
