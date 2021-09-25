@@ -31,9 +31,10 @@
 # include <stdlib.h>
 # include <string.h>
 
+void	ft_display_text(int typ_param, va_list lst_param, int *count);
+void	ft_display_num(int typ_param, va_list lst_param, int *count);
 void	ft_write_line(char **split, va_list lst_param, int *count);
 void	ft_putnbr_hexa(long long nbr, char c, int fd, int *count);
-
 void	ft_putnbr_ptr(long long nbr, int fd, int *count);
 char	**ft_split_printf(const char *str, char sep);
 void	ft_putchar_fd(char c, int fd, int *count);

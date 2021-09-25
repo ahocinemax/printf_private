@@ -37,13 +37,18 @@ void	ft_putstr_fd(char *s, int fd, int *count)
 		ft_putstr_fd("(null)", fd, count);
 }
 
-int		ft_sep_finder(char *str)
+void	ft_display_text(int typ_param, va_list lst_param, int *count)
 {
-	int	i;
+	char	*str;
 
-	i = 0;
-	while (str[i])
-		if (str[i++] == '%')
-			return (1);
-	return (0);
+	if (typ_param == _CHAR)
+		ft_putchar_fd((char)va_arg(lst_param, int), _STD_OUT, count);
+	else if (typ_param == _STRING)
+	{
+		str = va_arg(lst_param, char *);
+		if (str)
+			ft_putstr_fd(str, _STD_OUT, count);
+		else
+			ft_putstr_fd("(null)", _STD_OUT, count);
+	}
 }

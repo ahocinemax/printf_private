@@ -76,3 +76,26 @@ void	ft_putnbr_fd(int n, int fd, int *count)
 		ft_putnbr_fd(n % 10, fd, count);
 	}
 }
+
+void	ft_display_num(int typ_param, va_list lst_param, int *count)
+{
+	long	ptr;
+
+	if (typ_param == _INT)
+		ft_putnbr_fd(va_arg(lst_param, int), _STD_OUT, count);
+	else if (typ_param == _LONG)
+		ft_putlong_fd(va_arg(lst_param, long), _STD_OUT, count);
+	else if (typ_param == _NBR_HEX_MIN)
+		ft_putnbr_hexa(va_arg(lst_param, long), 'x', _STD_OUT, count);
+	else if (typ_param == _NBR_HEX_MAX)
+		ft_putnbr_hexa(va_arg(lst_param, long), 'X', _STD_OUT, count);
+	else if (typ_param == _PTR_HEX)
+	{
+		ptr = va_arg(lst_param, long);
+		ft_putstr_fd("0x", _STD_OUT, count);
+		if (ptr == -1)
+			ft_putstr_fd("ffffffffffffffff", _STD_OUT, count);
+		else
+			ft_putnbr_ptr(ptr, _STD_OUT, count);
+	}
+}
