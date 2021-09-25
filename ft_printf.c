@@ -34,8 +34,10 @@ int	ft_flags(char **str)
 {
 	int	res;
 
-	if (**str == 'd' || **str == 'i' || **str == 'u')
+	if (**str == 'd' || **str == 'i')
 		res = _INT;
+	else if (**str == 'u')
+		res = _LONG;
 	else if (**str == 'c')
 		res = _CHAR;
 	else if (**str == 's')
@@ -54,6 +56,8 @@ int	ft_flags(char **str)
 
 void	ft_write_line(char *split, va_list lst_param, int *count)
 {
+
+	
 	int		typ_param;
 	int		i;
 	long	ptr;
@@ -64,6 +68,8 @@ void	ft_write_line(char *split, va_list lst_param, int *count)
 		ft_putchar_fd((char)va_arg(lst_param, int), _STD_OUT, count);
 	else if (typ_param == _INT)
 		ft_putnbr_fd(va_arg(lst_param, int), _STD_OUT, count);
+	else if (typ_param == _LONG)
+		ft_putlong_fd(va_arg(lst_param, long), _STD_OUT, count);
 	else if (typ_param == _STRING)
 		ft_putstr_fd(va_arg(lst_param, char *), _STD_OUT, count);
 	else if (typ_param == _NBR_HEX_MIN)
@@ -74,7 +80,10 @@ void	ft_write_line(char *split, va_list lst_param, int *count)
 	{
 		ptr = va_arg(lst_param, long);
 		ft_putstr_fd("0x", _STD_OUT, count);
-		ft_putnbr_ptr(ptr, _STD_OUT, count);
+		if (ptr == -1)
+			ft_putstr_fd("ffffffffffffffff", _STD_OUT, count);
+		else
+			ft_putnbr_ptr(ptr, _STD_OUT, count);
 	}
 	ft_putstr_fd(split, _STD_OUT, count);
 	i++;
@@ -93,12 +102,16 @@ int	ft_printf(const char *str, ...)
 	va_start(lst_param, str);
 	split = ft_split_printf(str, '%');
 	nbr_param = ft_count_flags(str) + 1;
+	if (**split == *str)
+	{
+		ft_putstr_fd(split[i], _STD_OUT, &count);
+		free(split[i++]);
+	}
 	while (split[i] && i < nbr_param)
 	{
 		if (lst_param != 0)
 			ft_write_line(split[i], lst_param, &count);
-		free(split[i]);
-		i++;
+		free(split[i++]);
 	}
 	free(split);
 	va_end(lst_param);

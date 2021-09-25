@@ -19,6 +19,7 @@
 # define _NBR_HEX_MIN	3
 # define _NBR_HEX_MAX	4
 # define _PTR_HEX		5
+# define _LONG			6
 # define _STD_OUT		1
 # define BASE16_MIN		"0123456789abcdef"
 # define BASE16_MAJ 	"0123456789ABCDEF"
@@ -32,10 +33,12 @@
 
 void	ft_write_line(char *split, va_list lst_param, int *count);
 void	ft_putnbr_hexa(long long nbr, char c, int fd, int *count);
+
 void	ft_putnbr_ptr(long long nbr, int fd, int *count);
 char	**ft_split_printf(const char *str, char sep);
 void	ft_putchar_fd(char c, int fd, int *count);
 void	ft_putstr_fd(char *s, int fd, int *count);
+void	ft_putlong_fd(long n, int fd, int *count);
 void	ft_putnbr_fd(int n, int fd, int *count);
 int		ft_printf(const char *str, ...);
 int		ft_count_flags(const char *str);

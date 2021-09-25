@@ -12,12 +12,11 @@
 
 #include "ft_printf.h"
 
-static int	ft_cntline(const char *str, char sep, int *s_line)
+static int	ft_cntline(const char *str, char sep)
 {
 	int	i;
 	int	count_sep;
 
-	*s_line = 0;
 	i = 0;
 	if (!str)
 		return (0);
@@ -28,11 +27,12 @@ static int	ft_cntline(const char *str, char sep, int *s_line)
 		{
 			count_sep++;
 			i++;
+			if (str[i] && str[i] == sep)
+				i++;
 		}
 		while (str[i] && str[i] != sep)
 		{
-			
-			if (i > 0 && str[i - 1] == sep)
+			if (i > 0 && str[i - 1] != sep)
 				count_sep++;
 			i++;
 		}
@@ -40,19 +40,11 @@ static int	ft_cntline(const char *str, char sep, int *s_line)
 	return (count_sep);
 }
 
-static int	ft_init(int *a, int *b)
-{
-	*a = 0;
-	*b = 0;
-	return (1);
-}
-
 static int	ft_malloc_arr(char ***arr, const char **str, char *sep)
 {
 	int	len;
-	int	err;
 
-	len = ft_cntline(*str, *sep, &err);
+	len = ft_cntline(*str, *sep);
 	if (len > 0)
 		*arr = (char **)malloc(sizeof(char *) * (len + 1));
 	if (!*arr)
@@ -60,51 +52,85 @@ static int	ft_malloc_arr(char ***arr, const char **str, char *sep)
 	return (0);
 }
 
-static char	*ft_malloc_word(int size_line, const char *word_to_malloc)
+static char	*ft_malloc_sep(int *size_line, char **line, char sep)
 {
 	char	*dest;
-	int		i;
+	int		len;
 
-	i = 0;
-	if (!word_to_malloc)
+	len = 0;
+	*size_line = 0;
+	if (!(*line))
 		return (NULL);
-	dest = (char *)malloc(sizeof(char) * (size_line + 1));
+	while ((*line)[len] && (*line)[len] == sep)
+		len++;
+	dest = (char *)malloc(sizeof(char) * ((len) + 1));
 	if (!dest)
 		return (NULL);
-	while (word_to_malloc[i] && i < size_line)
+	while ((*line)[*size_line] && *size_line < len)
 	{
-		dest[i] = word_to_malloc[i];
-		i++;
+		dest[*size_line] = (*line)[*size_line];
+		(*size_line)++;
 	}
-	dest[i] = 0;
+	dest[*size_line / 2] = 0;
 	return (dest);
 }
 
-char	**ft_split_printf(const char *str, char sep)
+static char	*ft_malloc_line(int *size_line, char **line, char sep)
+{
+	char	*dest;
+	int		len;
+
+	len = 0;
+	*size_line = 0;
+	if (!(*line))
+		return (NULL);
+	while (((*line))[len] && ((*line))[len] != sep)
+		len++;
+	dest = (char *)malloc(sizeof(char) * (len + 1));
+	if (!dest)
+		return (NULL);
+	while ((*line)[*size_line] && *size_line < len)
+	{
+		dest[*size_line] = (*line)[*size_line];
+		(*size_line)++;
+	}
+	dest[*size_line] = 0;
+	return (dest);
+}
+
+char	**ft_split_printf(const char *ptr, char sep)
 {
 	char	**arr;
 	int		index;
-	int		i;
 	int		s_line;
+	char	*str;
 
-	if (ft_init(&index, &i) && ft_malloc_arr(&arr, &str, &sep))
+	str = (char *)ptr;
+	index = 0;
+	if (ft_malloc_arr(&arr, &ptr, &sep))
 		return (NULL);
-	while (index < ft_cntline(str, sep, &s_line) && i < (int)ft_strlen(str))
+	while (index < ft_cntline(ptr, sep) && ft_strlen(str) && *str)
 	{
-		while ((char)str[s_line + i] && ((char)str[s_line + i] != sep))
-			s_line++;
-		if (s_line > 0)
+		if (*str && *str != sep)
 		{
-			arr[index++] = ft_malloc_word(s_line, (char *)&str[i]);
-			i += s_line;
+			arr[index++] = ft_malloc_line(&s_line, &str, sep);
+			str += s_line;
 		}
-		if ((char)str[i] && (char)str[i] == sep)
+		while (*str && *str == sep)
 		{
-			arr[index++] = ft_malloc_word(s_line, (char *)&str[i]);
+			arr[index] = ft_malloc_sep(&s_line, &str, sep);
+			if (*arr[index])
+			{
+				str += s_line;
+				index++;
+			}
+			else
+			{
+				free(arr[index]);
+				str++;
+			}
 		}
 	}
-	if (index < ft_cntline(str, sep, &s_line) && i < ft_strlen(str))
-		arr[index++] = ft_malloc_word((int)ft_strlen(str) - i, (char *)&str[i]);
 	arr[index] = 0;
 	return (arr);
 }

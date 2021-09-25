@@ -18,15 +18,18 @@ int	main(void)
 	int		i;
 
 	i = 0;
-	res = ft_split_printf("[Got] : %%\n", '%');
+	write(1, "%%c%%s%%p\n", 44);
+	printf("*************** SPLIT RESULT ***************\n");
+	res = ft_split_printf("%%c%%s%%p\n", '%');
 	while (res[i])
 	{
-		ft_printf("[%s]\n", res[i]);
+		printf("[%s]\n", res[i]);
 		free(res[i]);
 		i++;
 	}
 	free(res);
-	//printf("[Got] : %%\n");
-	//printf("[Expected] : %%\n");
+	printf("\n*************** PRINTF RESULT ***************\n");
+	ft_printf("%%c%%s%%p\n");
+	printf("%%c%%s%%p\n");
 	return (0);
 }
