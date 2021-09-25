@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-int	ft_count_flags(const char *str)
+static int	ft_count_flags(const char *str)
 {
 	size_t	i;
 	int		res;
@@ -30,7 +30,7 @@ int	ft_count_flags(const char *str)
 	return (res);
 }
 
-int	ft_flags(char **str)
+static int	ft_flags(char **str)
 {
 	int	res;
 
@@ -54,7 +54,7 @@ int	ft_flags(char **str)
 	return (res);
 }
 
-void	ft_write_line(char **line, va_list lst_param, int *count)
+static void	ft_write_line(char **line, va_list lst_param, int *count)
 {
 	int		typ_param;
 	char	*split;
