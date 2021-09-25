@@ -18,7 +18,7 @@ int	main(void)
 	int		i;
 
 	i = 0;
-	write(1, "%%c%%s%%p\n", 44);
+	write(1, "%%c%%s%%p\n", 11);
 	printf("*************** SPLIT RESULT ***************\n");
 	res = ft_split_printf("%%c%%s%%p\n", '%');
 	while (res[i])
@@ -30,6 +30,7 @@ int	main(void)
 	free(res);
 	printf("\n*************** PRINTF RESULT ***************\n");
 	ft_printf("%%c%%s%%p\n");
+	write(1, "\n", 2);
 	printf("%%c%%s%%p\n");
 	return (0);
 }

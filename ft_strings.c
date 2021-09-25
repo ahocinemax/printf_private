@@ -36,3 +36,14 @@ void	ft_putstr_fd(char *s, int fd, int *count)
 	else
 		ft_putstr_fd("(null)", fd, count);
 }
+
+int		ft_sep_finder(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		if (str[i++] == '%')
+			return (1);
+	return (0);
+}

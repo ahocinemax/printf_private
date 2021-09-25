@@ -5,7 +5,7 @@ CFLAGS	=	-Wall -Werror -Wextra -c
 CC		=	gcc
 
 SRCS	=	main.c ft_numbers.c ft_printf.c \
-			ft_split_printf.c utils.c \
+			ft_split_printf.c ft_strings.c \
 
 INCLUDES	=	ft_printf.h \
 
