@@ -37,43 +37,27 @@ void	ft_putstr_fd(char *s, int fd, int *count)
 		ft_putstr_fd("(null)", fd, count);
 }
 
-static int	ft_counter(int n)
+int	ft_atoi(const char *nb)
 {
-	int	len;
+	long	i;
+	long	res;
+	long	neg;
 
-	len = 1;
-	if (n < 0)
-		len++;
-	while (n < -9 || n > 9)
+	i = 0;
+	res = 0;
+	neg = 1;
+	while ((nb[i] >= 9 && nb[i] <= 13) || nb[i] == ' ')
+		i++;
+	if (nb[i] == '+' || nb[i] == '-')
 	{
-		n /= 10;
-		len++;
+		if (nb[i] == '-')
+			neg = -1;
+		i++;
 	}
-	return (len);
-}
-
-char	*ft_itoa(int n)
-{
-	char	*res;
-	size_t	index;
-	long	nbr;
-
-	index = ft_counter(n);
-	nbr = n;
-	if (nbr < 0)
-		nbr = -nbr;
-	res = malloc(sizeof(char) * (index + 1));
-	if (!res)
-		return (NULL);
-	res[index--] = 0;
-	while (index > 0)
+	while (ft_isdigit(nb[i]))
 	{
-		res[index--] = (nbr % 10) + '0';
-		nbr /= 10;
+		res = res * 10 + nb[i] - '0';
+		i++;
 	}
-	if (n < 0)
-		res[0] = '-';
-	else
-		res[0] = nbr + '0';
-	return (res);
+	return ((int)res * (int)neg);
 }

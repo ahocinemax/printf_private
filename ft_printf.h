@@ -48,7 +48,7 @@ void	ft_display_text(int typ_param, va_list param, int *c, int *flags2);
 
 // Utils
 
-char	*ft_itoa(int n);
+int		ft_atoi(char *str);
 int		ft_strlen(const char *str);
 void	ft_int(int res, int *flags, int *count);
 void	ft_long(long ptr, int *flags, int *count);

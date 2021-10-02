@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parse_char_flags.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahocine <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ahocine <ahocine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 20:13:07 by ahocine           #+#    #+#             */
 /*   Updated: 2021/10/02 20:13:53 by ahocine          ###   ########.fr       */
@@ -14,6 +14,9 @@
 
 void	ft_flags_b2(char **str, int *flags)
 {
+	int	width;
+
+	width = 0;
 	if (**str == '.')
 	{
 		flags[_POINT]++;
@@ -22,14 +25,16 @@ void	ft_flags_b2(char **str, int *flags)
 	else if (**str == '-')
 	{
 		flags[_MINUS]++;
-		while (**str == ' ')
+		(*str)++;
+		while (**str >= 0 && **str < 10)
+		{
+			width += (**str) - '0';
 			(*str)++;
+		}
 	}
 	else if (**str == '0')
 	{
 		flags[_ZERO]++;
-		while (**str == '+')
-			(*str)++;
 	}
 }
 
