@@ -18,7 +18,7 @@ CC		=	gcc
 
 SRCS	=	main.c ft_numbers.c ft_printf.c \
 			ft_split_printf.c ft_strings.c \
-			parse_flags.c \
+			parse_num_flags.c parse_char_flags.c \
 
 INCLUDES	=	ft_printf.h \
 

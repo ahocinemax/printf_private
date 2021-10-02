@@ -54,7 +54,7 @@ static int	ft_conversion(char **str)
 	return (res);
 }
 
-static void	ft_flags(char **str, int *flags)
+static void	ft_num_flags(char **str, int *flags)
 {
 	if (**str == '#')
 	{
@@ -80,18 +80,23 @@ static void	ft_write_line(char **line, va_list lst_param, int *count)
 	int		typ_param;
 	char	*split;
 	int		flags[3];
+	int		flags2[3];
 
 	flags[0] = 0;
 	flags[1] = 0;
 	flags[2] = 0;
+	flags2[0] = 0;
+	flags2[1] = 0;
+	flags2[2] = 0;
 	split = *line;
 	if (*split == '%')
 	{
 		split++;
-		ft_flags(&split, flags);
+		ft_num_flags(&split, flags);
+		ft_char_flags(&split, flags2);
 		typ_param = ft_conversion(&split);
 		ft_display_num(typ_param, lst_param, count, flags);
-		ft_display_text(typ_param, lst_param, count);
+		ft_display_text(typ_param, lst_param, count, flags2);
 	}
 	ft_putstr_fd(split, _STD_OUT, count);
 }

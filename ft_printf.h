@@ -34,20 +34,27 @@
 # include <stdlib.h>
 # include <string.h>
 
-void	ft_display_text(int typ_param, va_list lst_param, int *count);
-void	ft_display_num(int typ_param, va_list param, int *count, int *flags);
+// Ordre d'apparition
+
+int		ft_printf(const char *str, ...);
+char	**ft_split_printf(const char *str, char sep);
+void	ft_display_num(int typ_param, va_list param, int *c, int *flags);
+void	ft_display_text(int typ_param, va_list param, int *c, int *flags2);
+
+// Utils
+
+int		ft_strlen(const char *str);
+void	ft_int(int res, int *flags, int *count);
+void	ft_long(long ptr, int *flags, int *count);
+void	ft_hexa(int typ_param, long ptr, int *flags, int *count);
+
+// Diplay functions
+
 void	ft_putnbr_hexa(long long nbr, char c, int fd, int *count);
 void	ft_putnbr_ptr(long long nbr, int fd, int *count);
-char	**ft_split_printf(const char *str, char sep);
 void	ft_putchar_fd(char c, int fd, int *count);
 void	ft_putstr_fd(char *s, int fd, int *count);
 void	ft_putlong_fd(long n, int fd, int *count);
 void	ft_putnbr_fd(int n, int fd, int *count);
-int		ft_printf(const char *str, ...);
-int		ft_strlen(const char *str);
-
-void	ft_int(int res, int *flags, int *count);
-void	ft_long(long ptr, int *flags, int *count);
-void	ft_hexa(int typ_param, long ptr, int *flags, int *count);
 
 #endif

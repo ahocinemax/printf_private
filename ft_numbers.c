@@ -80,13 +80,9 @@ void	ft_putnbr_fd(int n, int fd, int *count)
 void	ft_display_num(int typ_param, va_list lst_param, int *count, int *flags)
 {
 	long long	ptr;
-	int			res;
 
 	if (typ_param == _INT)
-	{
-		res = va_arg(lst_param, int);
-		ft_int(res, flags, count);
-	}
+		ft_int(va_arg(lst_param, int), flags, count);
 	else if (typ_param == _LONG)
 		ft_long(va_arg(lst_param, long), flags, count);
 	else if (typ_param == _NBR_HEX_MIN || typ_param == _NBR_HEX_MAX)
