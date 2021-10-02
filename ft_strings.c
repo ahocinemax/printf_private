@@ -37,18 +37,43 @@ void	ft_putstr_fd(char *s, int fd, int *count)
 		ft_putstr_fd("(null)", fd, count);
 }
 
-void	ft_display_text(int typ_param, va_list lst_param, int *count)
+static int	ft_counter(int n)
 {
-	char	*str;
+	int	len;
 
-	if (typ_param == _CHAR)
-		ft_putchar_fd((char)va_arg(lst_param, int), _STD_OUT, count);
-	else if (typ_param == _STRING)
+	len = 1;
+	if (n < 0)
+		len++;
+	while (n < -9 || n > 9)
 	{
-		str = va_arg(lst_param, char *);
-		if (str)
-			ft_putstr_fd(str, _STD_OUT, count);
-		else
-			ft_putstr_fd("(null)", _STD_OUT, count);
+		n /= 10;
+		len++;
 	}
+	return (len);
+}
+
+char	*ft_itoa(int n)
+{
+	char	*res;
+	size_t	index;
+	long	nbr;
+
+	index = ft_counter(n);
+	nbr = n;
+	if (nbr < 0)
+		nbr = -nbr;
+	res = malloc(sizeof(char) * (index + 1));
+	if (!res)
+		return (NULL);
+	res[index--] = 0;
+	while (index > 0)
+	{
+		res[index--] = (nbr % 10) + '0';
+		nbr /= 10;
+	}
+	if (n < 0)
+		res[0] = '-';
+	else
+		res[0] = nbr + '0';
+	return (res);
 }

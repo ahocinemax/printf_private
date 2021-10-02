@@ -24,6 +24,9 @@
 # define _SPACE			0
 # define _HASH			1
 # define _PLUS			2
+# define _ZERO			3
+# define _MINUS			4
+# define _POINT			5
 # define BASE16_MIN		"0123456789abcdef"
 # define BASE16_MAJ 	"0123456789ABCDEF"
 
@@ -38,11 +41,14 @@
 
 int		ft_printf(const char *str, ...);
 char	**ft_split_printf(const char *str, char sep);
+void	ft_flags_b1(char **str, int *flags);
+void	ft_flags_b2(char **str, int *flags);
 void	ft_display_num(int typ_param, va_list param, int *c, int *flags);
 void	ft_display_text(int typ_param, va_list param, int *c, int *flags2);
 
 // Utils
 
+char	*ft_itoa(int n);
 int		ft_strlen(const char *str);
 void	ft_int(int res, int *flags, int *count);
 void	ft_long(long ptr, int *flags, int *count);

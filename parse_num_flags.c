@@ -12,8 +12,30 @@
 
 #include "ft_printf.h"
 
+void	ft_flags_b1(char **str, int *flags)
+{
+	if (**str == '#')
+	{
+		flags[_HASH]++;
+		(*str)++;
+	}
+	if (**str == ' ')
+	{
+		flags[_SPACE]++;
+		while (**str == ' ')
+			(*str)++;
+	}
+	if (**str == '+')
+	{
+		flags[_PLUS]++;
+		while (**str == '+')
+			(*str)++;
+	}
+}
+
 void	ft_int(int res, int *flags, int *count)
 {
+	
 	if (res >= 0 && flags[_PLUS] > 0)
 		ft_putchar_fd('+', _STD_OUT, count);
 	else if (res >= 0 && flags[_SPACE] > 0)
