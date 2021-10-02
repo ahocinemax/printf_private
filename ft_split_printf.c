@@ -73,7 +73,10 @@ static char	*ft_malloc_sep(char **line, char sep)
 		i++;
 	}
 	dest[i / 2] = 0;
-	*line += i;
+	if (i == len)
+		*line += i;
+	else
+		*line += (i / 2) + 1;
 	return (dest);
 }
 

@@ -77,7 +77,7 @@ void	ft_putnbr_fd(int n, int fd, int *count)
 	}
 }
 
-void	ft_display_num(int typ_param, va_list lst_param, int *count, int p)
+void	ft_display_num(int typ_param, va_list lst_param, int *count, int *flags)
 {
 	long long	ptr;
 	int			res;
@@ -85,26 +85,12 @@ void	ft_display_num(int typ_param, va_list lst_param, int *count, int p)
 	if (typ_param == _INT)
 	{
 		res = va_arg(lst_param, int);
-		if (res > 0 && p)
-			ft_putchar_fd('+', _STD_OUT, count);
-		ft_putnbr_fd(res, _STD_OUT, count);
+		ft_int(res, flags, count);
 	}
 	else if (typ_param == _LONG)
-	{
-		ptr = va_arg(lst_param, long);
-		if (p && ptr > 0)
-			ft_putchar_fd('+', _STD_OUT, count);
-		ft_putlong_fd(ptr, _STD_OUT, count);
-	}
-	else if (typ_param == _NBR_HEX_MIN)
-	{
-		ptr = va_arg(lst_param, long);
-		if (ptr > 0 && p)
-			ft_putchar_fd('+', _STD_OUT, count);
-		ft_putnbr_hexa(ptr, 'x', _STD_OUT, count);
-	}
-	else if (typ_param == _NBR_HEX_MAX)
-		ft_putnbr_hexa(va_arg(lst_param, long), 'X', _STD_OUT, count);
+		ft_long(va_arg(lst_param, long), flags, count);
+	else if (typ_param == _NBR_HEX_MIN || typ_param == _NBR_HEX_MAX)
+		ft_hexa(typ_param, va_arg(lst_param, long), flags, count);
 	else if (typ_param == _PTR_HEX)
 	{
 		ptr = va_arg(lst_param, long);

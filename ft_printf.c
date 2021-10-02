@@ -54,16 +54,24 @@ static int	ft_conversion(char **str)
 	return (res);
 }
 
-static void	ft_flags(char *str, int plus_flag, int count)
+static void	ft_flags(char **str, int *flags)
 {
-	if (*str == ' ')
-		ft_putchar_fd(' ', _STD_OUT, count);
-	while (*str == ' ')
-		str++;
-	if (*str == '+')
+	if (**str == '#')
 	{
-		plus_flag++;
-		str++;
+		flags[_HASH]++;
+		(*str)++;
+	}
+	if (**str == ' ')
+	{
+		flags[_SPACE]++;
+		while (**str == ' ')
+			(*str)++;
+	}
+	if (**str == '+')
+	{
+		flags[_PLUS]++;
+		while (**str == '+')
+			(*str)++;
 	}
 }
 
@@ -71,16 +79,18 @@ static void	ft_write_line(char **line, va_list lst_param, int *count)
 {
 	int		typ_param;
 	char	*split;
-	int		plus_flag;
+	int		flags[3];
 
-	plus_flag = 0;
+	flags[0] = 0;
+	flags[1] = 0;
+	flags[2] = 0;
 	split = *line;
 	if (*split == '%')
 	{
 		split++;
-		ft_flags(split);
+		ft_flags(&split, flags);
 		typ_param = ft_conversion(&split);
-		ft_display_num(typ_param, lst_param, count, plus_flag);
+		ft_display_num(typ_param, lst_param, count, flags);
 		ft_display_text(typ_param, lst_param, count);
 	}
 	ft_putstr_fd(split, _STD_OUT, count);
