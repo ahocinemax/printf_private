@@ -18,9 +18,9 @@ int	main(void)
 	int		i;
 
 	i = 0;
-	write(1, "%+d\n", 5);
+	write(1, "[%01.2x]\n", 10);
 	printf("*************** SPLIT RESULT ***************\n");
-	res = ft_split_printf("%+d\n", '%');
+	res = ft_split_printf("%01.2x\n", '%');
 	while (res[i])
 	{
 		printf("[%s]\n", res[i]);
@@ -29,8 +29,8 @@ int	main(void)
 	}
 	free(res);
 	printf("\n*************** PRINTF RESULT ***************\n");
-	ft_printf("%+d\n", 0);
+	ft_printf("%01.2x\n", 4);
 	write(1, "\n", 2);
-	printf("%+d\n", 0);
+	printf("%1.2x\n", 	4);
 	return (0);
 }

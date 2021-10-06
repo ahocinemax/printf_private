@@ -27,6 +27,10 @@
 # define _ZERO			3
 # define _MINUS			4
 # define _POINT			5
+# define _WIDTH_Z		6
+# define _WIDTH_P		7
+# define _WIDTH_M		8
+
 # define BASE16_MIN		"0123456789abcdef"
 # define BASE16_MAJ 	"0123456789ABCDEF"
 
@@ -37,30 +41,33 @@
 # include <stdlib.h>
 # include <string.h>
 
-// Ordre d'apparition
+// Main functions
 
 int		ft_printf(const char *str, ...);
 char	**ft_split_printf(const char *str, char sep);
 void	ft_flags_b1(char **str, int *flags);
 void	ft_flags_b2(char **str, int *flags);
 void	ft_display_num(int typ_param, va_list param, int *c, int *flags);
-void	ft_display_text(int typ_param, va_list param, int *c, int *flags2);
+void	ft_display_text(int typ_param, va_list param, int *c, int *flags);
 
 // Utils
 
-int		ft_atoi(char *str);
-int		ft_strlen(const char *str);
-void	ft_int(int res, int *flags, int *count);
-void	ft_long(long ptr, int *flags, int *count);
 void	ft_hexa(int typ_param, long ptr, int *flags, int *count);
+void	ft_long(long ptr, int *flags, int *count);
+void	ft_int(int res, int *flags, int *count);
+int		ft_strlen(const char *str);
+void	ft_init_flags(int *flags);
+char	*ft_itoa(long nb);
+int		ft_atoi(char *str);
 
 // Diplay functions
 
-void	ft_putnbr_hexa(long long nbr, char c, int fd, int *count);
-void	ft_putnbr_ptr(long long nbr, int fd, int *count);
-void	ft_putchar_fd(char c, int fd, int *count);
-void	ft_putstr_fd(char *s, int fd, int *count);
-void	ft_putlong_fd(long n, int fd, int *count);
-void	ft_putnbr_fd(int n, int fd, int *count);
+void	ft_putnbr_hexa(long long nbr, char c, int *count, int *flags);
+void	ft_putflag(int *flags, int *count);
+void	ft_putnbr_ptr(long long nbr, int fd, int *count, int *flags);
+void	ft_putchar_fd(char c, int fd, int *count, int *flags);
+void	ft_putstr_fd(char *s, int fd, int *count, int *flags);
+void	ft_putlong_fd(long n, int fd, int *count, int *flags);
+void	ft_putnbr_fd(int n, int fd, int *count, int *flags);
 
 #endif

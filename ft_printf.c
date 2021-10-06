@@ -58,14 +58,9 @@ static void	ft_write_line(char **line, va_list lst_param, int *count)
 {
 	int		typ_param;
 	char	*split;
-	int		flags[6];
+	int		flags[9];
 
-	flags[0] = 0;
-	flags[1] = 0;
-	flags[2] = 0;
-	flags[3] = 0;
-	flags[4] = 0;
-	flags[5] = 0;
+	ft_init_flags(flags);
 	split = *line;
 	if (*split == '%')
 	{
@@ -76,7 +71,7 @@ static void	ft_write_line(char **line, va_list lst_param, int *count)
 		ft_display_num(typ_param, lst_param, count, flags);
 		ft_display_text(typ_param, lst_param, count, flags);
 	}
-	ft_putstr_fd(split, _STD_OUT, count);
+	ft_putstr_fd(split, _STD_OUT, count, flags);
 }
 
 int	ft_printf(const char *str, ...)
@@ -95,7 +90,7 @@ int	ft_printf(const char *str, ...)
 	while (s[i] && i < nbr_param)
 	{
 		if (ft_count_flags(s[i]) == ft_strlen(s[i]) || !ft_count_flags(s[i]))
-			ft_putstr_fd(s[i], _STD_OUT, &count);
+			ft_putstr_fd(s[i], _STD_OUT, &count, 0);
 		else
 			ft_write_line(&s[i], lst_param, &count);
 		free(s[i++]);
