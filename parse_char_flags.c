@@ -33,32 +33,29 @@ void	ft_putflag(int *flags, int *count)
 
 void	ft_flags_b2(char **str, int *flags)
 {
-	while (**str == '.'|| **str == '-' || **str == '0')
+	if (**str == '-')
 	{
-		if (**str == '.')
-		{
-			flags[_POINT] = 1;
+		flags[_MINUS] = 1;
+		(*str)++;
+		flags[_WIDTH_Z] = ft_atoi(*str);
+		while (**str && **str >= '0' && **str <= '9')
 			(*str)++;
-			flags[_WIDTH_P] = ft_atoi(*str);
-			while (**str && **str >= '0' && **str <= '9')
-				(*str)++;
-		}
-		else if (**str == '-')
-		{
-			flags[_MINUS] = 1;
+	}
+	else if (**str == '0')
+	{
+		flags[_ZERO] = 1;
+		(*str)++;
+		flags[_WIDTH_Z] = ft_atoi(*str);
+		while (**str && **str >= '0' && **str <= '9')
 			(*str)++;
-			flags[_WIDTH_Z] = ft_atoi(*str);
-			while (**str && **str >= '0' && **str <= '9')
-				(*str)++;
-		}
-		else if (**str == '0')
-		{
-			flags[_ZERO] = 1;
+	}
+	if (**str == '.')
+	{
+		flags[_POINT] = 1;
+		(*str)++;
+		flags[_WIDTH_P] = ft_atoi(*str);
+		while (**str && **str >= '0' && **str <= '9')
 			(*str)++;
-			flags[_WIDTH_Z] = ft_atoi(*str);
-			while (**str && **str >= '0' && **str <= '9')
-				(*str)++;
-		}
 	}
 }
 
