@@ -14,19 +14,19 @@
 
 void	ft_putflag(int *flags, int *count)
 {
-	if (flags[_ZERO] && flags[_POINT])
+	if (flags[_ZERO] && flags[_POINT] && flags[_WIDTH_Z] > flags[_WIDTH_P])
 		flags[_WIDTH_Z] = flags[_WIDTH_P];
-	if (flags[_WIDTH_Z] - 1 > 0 || flags[_WIDTH_M] - 1 > 0)
+	if (flags[_WIDTH_Z]> 0 || flags[_WIDTH_M] > 0)
 	{
 		if (flags[_ZERO] > 0)
 		{
 			while (flags[_WIDTH_Z]--)
-				ft_putchar_fd('0', _STD_OUT, count, flags);
+				ft_putchar_fd('0', _STD_OUT, count);
 		}
 		else if (flags[_MINUS] > 0)
 		{
 			while (flags[_WIDTH_M]--)
-				ft_putchar_fd(' ', _STD_OUT, count, flags);
+				ft_putchar_fd(' ', _STD_OUT, count);
 		}
 	}
 }
@@ -37,7 +37,7 @@ void	ft_flags_b2(char **str, int *flags)
 	{
 		flags[_MINUS] = 1;
 		(*str)++;
-		flags[_WIDTH_Z] = ft_atoi(*str);
+		flags[_WIDTH_M] = ft_atoi(*str);
 		while (**str && **str >= '0' && **str <= '9')
 			(*str)++;
 	}
@@ -67,16 +67,21 @@ void	ft_display_text(int type, va_list lst_param, int *count, int *flags)
 	if (type == _CHAR)
 	{
 		letter = (char)va_arg(lst_param, int);
+		if (flags[_POINT] && flags[_WIDTH_P] < 1)
+			return ;
 		ft_putflag(flags, count);
-		ft_putchar_fd(letter, _STD_OUT, count, flags);
+		ft_putchar_fd(letter, _STD_OUT, count);
 	}
 	else if (type == _STRING)
 	{
 		str = va_arg(lst_param, char *);
-		if (str)
-			ft_putstr_fd(str, _STD_OUT, count, flags);
+		if (!str)
+			str = "(null)";
+		if (!flags[_POINT] || (flags[_POINT] && flags[_WIDTH_P] > ft_strlen(str)))
+			ft_putstr_fd(str, _STD_OUT, count);
 		else
-			ft_putstr_fd("(null)", _STD_OUT, count, flags);
+			while (flags[_WIDTH_P]--)
+				ft_putchar_fd((*str)++, _STD_OUT, count);
 	}
 }
 

@@ -22,26 +22,19 @@ int	ft_strlen(const char *str)
 	return (i);
 }
 
-void	ft_putchar_fd(char c, int fd, int *count, int *flags)
+void	ft_putchar_fd(char c, int fd, int *count)
 {
-	if (flags)
-	{
-		if (*count > flags[_WIDTH_P] && flags[_POINT])
-		{
-			return ;
-		}
-	}
 	write(fd, &c, 1);
 	(*count)++;
 }
 
-void	ft_putstr_fd(char *s, int fd, int *count, int *flags)
+void	ft_putstr_fd(char *s, int fd, int *count)
 {
 	if (s)
 		while (*s)
-			ft_putchar_fd(*s++, fd, count, flags);
+			ft_putchar_fd(*s++, fd, count);
 	else
-		ft_putstr_fd("(null)", fd, count, flags);
+		ft_putstr_fd("(null)", fd, count);
 }
 
 void	ft_init_flags(int *flags)
