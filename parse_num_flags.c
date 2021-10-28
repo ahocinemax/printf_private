@@ -46,7 +46,10 @@ void	ft_flags_b1(char **str, int *flags)
 
 void	ft_int(int res, int *flags, int *count)
 {
+	int	neg;
+
 	flags[_LEN_VAR] = ft_counter(res);
+	//printf("%d\n", flags[_LEN_VAR]);
 	ft_putspace(flags, count, flags[_LEN_VAR]);
 	if (res >= 0 && flags[_PLUS])
 		ft_putchar_fd('+', _STD_OUT, count);
@@ -54,10 +57,10 @@ void	ft_int(int res, int *flags, int *count)
 		ft_putchar_fd(' ', _STD_OUT, count);
 	else if (res < 0)
 	{
+		neg = -1;
 		res = -res;
 		ft_putchar_fd('-', _STD_OUT, count);
-		if (!flags[_MINUS] || flags[_ZERO])
-			flags[_LEN_VAR]--;
+		flags[_LEN_VAR]--;
 	}
 	ft_putzero(flags, count, flags[_LEN_VAR]);
 	if (flags[_ZERO] && !flags[_WIDTH_Z] && !res)
@@ -67,6 +70,8 @@ void	ft_int(int res, int *flags, int *count)
 	}
 	else
 		ft_putlong_fd(res, _STD_OUT, count);
+	if (neg == -1)
+		flags[_LEN_VAR]++;
 }
 
 void	ft_long(long ptr, int *flags, int *count)
@@ -81,7 +86,10 @@ void	ft_long(long ptr, int *flags, int *count)
 		ft_putchar_fd('-', _STD_OUT, count);
 	ft_putzero(flags, count, flags[_LEN_VAR]);
 	if (flags[_ZERO] && !flags[_WIDTH_Z] && !ptr)
+	{
+		flags[_LEN_VAR] = 0;
 		return ;
+	}
 	else
 		ft_putlong_fd(ptr, _STD_OUT, count);
 }
@@ -99,7 +107,10 @@ void	ft_hexa(long ptr, int *flags, int *count)
 		ft_putstr_fd("0X", _STD_OUT, count);
 	ft_putzero(flags, count, flags[_LEN_VAR]);
 	if (flags[_ZERO] && !flags[_WIDTH_Z] && !ptr)
+	{
+		flags[_LEN_VAR] = 0;
 		return ;
+	}
 	else
 		ft_putnbr_hexa(ptr, count, flags);
 }
