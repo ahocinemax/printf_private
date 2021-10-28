@@ -12,18 +12,18 @@
 
 #include "ft_printf.h"
 
-void	ft_putnbr_hexa(long long nbr, char c, int *count)
+void	ft_putnbr_hexa(long long nbr, int *count, int *flags)
 {
 	if (nbr >= 16)
 	{
-		ft_putnbr_hexa(nbr / 16, c, count);
-		ft_putnbr_hexa(nbr % 16, c, count);
+		ft_putnbr_hexa(nbr / 16, count, flags);
+		ft_putnbr_hexa(nbr % 16, count, flags);
 	}
 	else
 	{
-		if (c == 'x')
+		if (flags[_TYP_VAR] == _NBR_HEX_MIN)
 			ft_putchar_fd(BASE16_MIN[nbr], _STD_OUT, count);
-		if (c == 'X')
+		else if (flags[_TYP_VAR] == _NBR_HEX_MAX)
 			ft_putchar_fd(BASE16_MAJ[nbr], _STD_OUT, count);
 	}
 }
@@ -71,17 +71,17 @@ void	ft_putnbr_fd(int n, int fd, int *count)
 	}
 }
 
-void	ft_display_num(int typ_param, va_list lst_param, int *count, int *flags)
+void	ft_display_num(va_list lst_param, int *count, int *flags)
 {
 	long long	ptr;
 
-	if (typ_param == _INT)
+	if (flags[_TYP_VAR] == _INT)
 		ft_int(va_arg(lst_param, int), flags, count);
-	else if (typ_param == _LONG)
+	else if (flags[_TYP_VAR] == _LONG)
 		ft_long(va_arg(lst_param, long), flags, count);
-	else if (typ_param == _NBR_HEX_MIN || typ_param == _NBR_HEX_MAX)
-		ft_hexa(typ_param, va_arg(lst_param, long), flags, count);
-	else if (typ_param == _PTR_HEX)
+	else if (flags[_TYP_VAR] == _NBR_HEX_MIN || flags[_TYP_VAR] == _NBR_HEX_MAX)
+		ft_hexa(va_arg(lst_param, long), flags, count);
+	else if (flags[_TYP_VAR] == _PTR_HEX)
 	{
 		ptr = va_arg(lst_param, long);
 		ft_putstr_fd("0x", _STD_OUT, count);

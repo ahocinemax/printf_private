@@ -16,7 +16,7 @@ CFLAGS	=	-Wall -Werror -Wextra -c
 
 CC		=	gcc
 
-SRCS	=	main.c ft_numbers.c ft_printf.c \
+SRCS	=	ft_numbers.c ft_printf.c \
 			ft_split_printf.c ft_strings.c \
 			parse_num_flags.c parse_char_flags.c \
 

@@ -30,6 +30,8 @@
 # define _WIDTH_Z		6
 # define _WIDTH_P		7
 # define _WIDTH_M		8
+# define _LEN_VAR		9
+# define _TYP_VAR		10
 
 # define BASE16_MIN		"0123456789abcdef"
 # define BASE16_MAJ 	"0123456789ABCDEF"
@@ -47,12 +49,12 @@ int		ft_printf(const char *str, ...);
 char	**ft_split_printf(const char *str, char sep);
 void	ft_flags_b1(char **str, int *flags);
 void	ft_flags_b2(char **str, int *flags);
-void	ft_display_num(int typ_param, va_list param, int *c, int *flags);
-void	ft_display_text(int typ_param, va_list param, int *c, int *flags);
+void	ft_display_num(va_list param, int *c, int *flags);
+void	ft_display_text(va_list param, int *c, int *flags);
 
 // Utils
 
-void	ft_hexa(int typ_param, long ptr, int *flags, int *count);
+void	ft_hexa(long ptr, int *flags, int *count);
 void	ft_long(long ptr, int *flags, int *count);
 void	ft_int(int res, int *flags, int *count);
 int		ft_strlen(const char *str);
@@ -62,8 +64,8 @@ int		ft_atoi(char *str);
 
 // Diplay functions
 
-void	ft_putnbr_hexa(long long nbr, char c, int *count);
-void	ft_putflag(int *flags, int *count);
+void	ft_putnbr_hexa(long long nbr, int *count, int *flags);
+void	ft_putflag(int *flags, int *count, int len);
 void	ft_putnbr_ptr(long long nbr, int fd, int *count);
 void	ft_putchar_fd(char c, int fd, int *count);
 void	ft_putstr_fd(char *s, int fd, int *count);

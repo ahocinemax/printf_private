@@ -56,9 +56,8 @@ static int	ft_conversion(char **str)
 
 static void	ft_write_line(char **line, va_list lst_param, int *count)
 {
-	int		typ_param;
 	char	*split;
-	int		flags[9];
+	int		flags[11];
 
 	ft_init_flags(flags);
 	split = *line;
@@ -67,11 +66,12 @@ static void	ft_write_line(char **line, va_list lst_param, int *count)
 		split++;
 		ft_flags_b1(&split, flags);
 		ft_flags_b2(&split, flags);
-		typ_param = ft_conversion(&split);
-		if (flags[_POINT] == 1 && flags[_WIDTH_P] == 0)
-			return ;
-		ft_display_num(typ_param, lst_param, count, flags);
-		ft_display_text(typ_param, lst_param, count, flags);
+		flags[_TYP_VAR] = ft_conversion(&split);
+		ft_display_num(lst_param, count, flags);
+		ft_display_text(lst_param, count, flags);
+		if (flags[_WIDTH_M] > flags[_LEN_VAR])
+			while (flags[_WIDTH_M]-- > flags[_LEN_VAR])
+				ft_putchar_fd(' ', _STD_OUT, count);
 	}
 	ft_putstr_fd(split, _STD_OUT, count);
 }

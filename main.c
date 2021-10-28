@@ -18,21 +18,23 @@ int	main(void)
 	int		i;
 
 	i = 0;
-	write(1, "[%012d]\n", 9);
+	write(1, "[%012.11X]\n", 12);
 	printf("*************** SPLIT RESULT ***************\n");
-	res = ft_split_printf("%012d\n", '%');
+	res = ft_split_printf("[%012.11X]\n", '%');
 	while (res[i])
 	{
-		printf("[%s]\n", res[i]);
+		printf("\'%s\'\n", res[i]);
 		free(res[i]);
 		i++;
 	}
 	free(res);
 	printf("\n*************** PRINTF RESULT ***************\n");
 	write(1, "GOT      : ", 12);
-	ft_printf("%012d", (int)-2147483648);
+	int ret1 = ft_printf("[%#016.13x]", 555);
 	write(1, "\n", 2);
 	write(1, "EXPECTED : ", 12);
-	printf("%012d", (int)-2147483648);
+	int ret2 = printf("[%#016.13x]", 555);
+	printf("\nMy return       : %d\n", ret1);
+	printf("Expected return : %d\n", ret2);
 	return (0);
 }
