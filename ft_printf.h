@@ -56,11 +56,13 @@ void	ft_display_text(va_list param, int *c, int *flags);
 
 void	ft_hexa(long ptr, int *flags, int *count);
 void	ft_long(long ptr, int *flags, int *count);
+void	ft_count_hexa(long long nbr, int *flags);
 void	ft_int(int res, int *flags, int *count);
 int		ft_strlen(const char *str);
 void	ft_init_flags(int *flags);
-char	*ft_itoa(long nb);
+int		ft_counter(long n);
 int		ft_atoi(char *str);
+char	*ft_itoa(long nb);
 
 // Diplay functions
 

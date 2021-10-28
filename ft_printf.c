@@ -69,9 +69,8 @@ static void	ft_write_line(char **line, va_list lst_param, int *count)
 		flags[_TYP_VAR] = ft_conversion(&split);
 		ft_display_num(lst_param, count, flags);
 		ft_display_text(lst_param, count, flags);
-		if (flags[_WIDTH_M] > flags[_LEN_VAR])
-			while (flags[_WIDTH_M]-- > flags[_LEN_VAR])
-				ft_putchar_fd(' ', _STD_OUT, count);
+		while (flags[_WIDTH_M]-- > flags[_LEN_VAR])
+			ft_putchar_fd(' ', _STD_OUT, count);
 	}
 	ft_putstr_fd(split, _STD_OUT, count);
 }

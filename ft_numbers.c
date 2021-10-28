@@ -84,6 +84,9 @@ void	ft_display_num(va_list lst_param, int *count, int *flags)
 	else if (flags[_TYP_VAR] == _PTR_HEX)
 	{
 		ptr = va_arg(lst_param, long);
+		ft_count_hexa(ptr, flags);
+		flags[_LEN_VAR] += 2;
+		ft_putflag(flags, count, flags[_LEN_VAR]);
 		ft_putstr_fd("0x", _STD_OUT, count);
 		if (ptr == -1)
 			ft_putstr_fd("ffffffffffffffff", _STD_OUT, count);

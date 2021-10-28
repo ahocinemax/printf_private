@@ -15,9 +15,16 @@
 void	ft_putflag(int *flags, int *count, int len)
 {
 	if (flags[_ZERO] && flags[_POINT] && flags[_WIDTH_Z] > flags[_WIDTH_P])
+	{
 		while (flags[_WIDTH_Z]-- != (flags[_LEN_VAR] || flags[_WIDTH_P]))
-			ft_putchar_fd(' ', _STD_OUT, count);
-	if (flags[_WIDTH_Z] < flags[_WIDTH_P])
+		{
+			if (flags[_TYP_VAR] == _STRING || flags[_TYP_VAR] == _CHAR)
+				ft_putchar_fd(' ', _STD_OUT, count);
+			else
+				ft_putchar_fd('0', _STD_OUT, count);
+		}
+	}
+	if (flags[_POINT] && flags[_WIDTH_Z] < flags[_WIDTH_P])
 		flags[_WIDTH_Z] = flags[_WIDTH_P] - len;
 	else
 		flags[_WIDTH_Z] -= len;
@@ -26,7 +33,12 @@ void	ft_putflag(int *flags, int *count, int len)
 		if (flags[_ZERO] > 0)
 		{
 			while (flags[_WIDTH_Z]-- && flags[_LEN_VAR]++)
-				ft_putchar_fd('0', _STD_OUT, count);
+			{
+				if (flags[_ZERO] == 1)
+					ft_putchar_fd('0', _STD_OUT, count);
+				else
+					ft_putchar_fd(' ', _STD_OUT, count);
+			}
 		}
 		else if (flags[_MINUS] > 0)
 		{
@@ -38,17 +50,26 @@ void	ft_putflag(int *flags, int *count, int len)
 
 void	ft_flags_b2(char **str, int *flags)
 {
-	while (**str == '-' || **str == '0' || **str == '.')
+	while (**str && (**str == '-' || (**str >= '0' && **str <= '9') || **str == '.'))
 	{
+		printf("::%c\n", **str);
 		if (**str == '-')
 		{
 			flags[_MINUS] = 1;
+			(*str)++;
 			flags[_WIDTH_M] = ft_atoi(*str);
+			while (**str && **str >= '0' && **str <= '9')
+				(*str)++;
 		}
-		if (**str == '0')
+		if (**str >= '0' && **str <= '9')
 		{
-			flags[_ZERO] = 1;
+			if (**str == '0')
+				flags[_ZERO] = 1;
+			else
+				flags[_ZERO] = 2;
 			flags[_WIDTH_Z] = ft_atoi(*str);
+			while (**str && **str >= '0' && **str <= '9')
+				(*str)++;
 		}
 		if (**str == '.')
 		{
@@ -58,10 +79,9 @@ void	ft_flags_b2(char **str, int *flags)
 				flags[_WIDTH_P] = ft_atoi(*str);
 			else
 				flags[_WIDTH_P] = -1;
+			while (**str && **str >= '0' && **str <= '9')
+				(*str)++;
 		}
-		(*str)++;
-		while (**str && **str >= '0' && **str <= '9')
-			(*str)++;
 	}
 }
 
@@ -85,6 +105,7 @@ void	ft_display_text(va_list lst_param, int *count, int *flags)
 		if (!str)
 			str = "(null)";
 		flags[_LEN_VAR] = ft_strlen(str);
+		ft_putflag(flags, count, flags[_LEN_VAR]);
 		if (!flags[_POINT] || (flags[_WIDTH_P] > flags[_LEN_VAR]))
 			ft_putstr_fd(str, _STD_OUT, count);
 		else
@@ -93,7 +114,7 @@ void	ft_display_text(va_list lst_param, int *count, int *flags)
 	}
 }
 
-static int	ft_counter(long n)
+int	ft_counter(long n)
 {
 	int	len;
 

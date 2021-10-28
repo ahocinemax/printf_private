@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static void	ft_count_hexa(long long nbr, int *flags)
+void	ft_count_hexa(long long nbr, int *flags)
 {
 	if (nbr >= 16)
 	{
@@ -46,24 +46,18 @@ void	ft_flags_b1(char **str, int *flags)
 
 void	ft_int(int res, int *flags, int *count)
 {
-	char	*tmp;
-
-	tmp = ft_itoa(res);
-	flags[_LEN_VAR] = ft_strlen(tmp);
-	free(tmp);
+	flags[_LEN_VAR] = ft_counter(res);
 	if (res >= 0 && flags[_PLUS] > 0)
 		ft_putchar_fd('+', _STD_OUT, count);
 	else if (res >= 0 && flags[_SPACE] > 0)
 		ft_putchar_fd(' ', _STD_OUT, count);
+	if (flags[_POINT])
+		flags[_WIDTH_P] -= flags[_LEN_VAR];
+	ft_putflag(flags, count, flags[_LEN_VAR]);
 	if (res < 0)
 	{
 		res = -res;
 		ft_putchar_fd('-', _STD_OUT, count);
-	}
-	if (flags[_WIDTH_Z] > 0 && flags[_ZERO])
-	{
-		flags[_WIDTH_Z] -= flags[_LEN_VAR];
-		ft_putflag(flags, count, flags[_LEN_VAR]);
 	}
 	ft_putlong_fd(res, _STD_OUT, count);
 	if (flags[_WIDTH_Z] > 0 && flags[_MINUS])
@@ -75,11 +69,8 @@ void	ft_int(int res, int *flags, int *count)
 
 void	ft_long(long ptr, int *flags, int *count)
 {
-	char	*tmp;
-
-	tmp = ft_itoa(ptr);
-	flags[_LEN_VAR] = ft_strlen(tmp);
-	free(tmp);
+	flags[_LEN_VAR] = ft_counter(ptr);
+	ft_putflag(flags, count, flags[_LEN_VAR]);
 	if (flags[_PLUS] > 1 && ptr > 0)
 		ft_putchar_fd('+', _STD_OUT, count);
 	else if (flags[_SPACE] && ptr > 0)
@@ -87,8 +78,6 @@ void	ft_long(long ptr, int *flags, int *count)
 	else if (ptr < 0)
 		ft_putchar_fd('-', _STD_OUT, count);
 	flags[_WIDTH_Z] -= flags[_LEN_VAR];
-	if (flags[_WIDTH_Z] - 1 > 0 && flags[_ZERO])
-		ft_putflag(flags, count, flags[_LEN_VAR]);
 	ft_putlong_fd(ptr, _STD_OUT, count);
 	if (flags[_WIDTH_M] - 1 > 0 && flags[_MINUS])
 		ft_putflag(flags, count, flags[_LEN_VAR]);
@@ -100,8 +89,7 @@ void	ft_hexa(long ptr, int *flags, int *count)
 		flags[_LEN_VAR] = 8;
 	else
 		ft_count_hexa(ptr, flags);
-	if (flags[_WIDTH_Z] > 1)
-		ft_putflag(flags, count, flags[_LEN_VAR]);
+	ft_putflag(flags, count, flags[_LEN_VAR]);
 	if (flags[_POINT] == 1 && flags[_WIDTH_P] == 0)
 		return ;
 	if (flags[_TYP_VAR] == _NBR_HEX_MIN)

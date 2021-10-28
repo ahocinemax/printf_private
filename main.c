@@ -30,10 +30,10 @@ int	main(void)
 	free(res);
 	printf("\n*************** PRINTF RESULT ***************\n");
 	write(1, "GOT      : ", 12);
-	int ret1 = ft_printf("[%#016.13x]", 555);
+	int ret1 = ft_printf("[%.s]", "hi there");
 	write(1, "\n", 2);
 	write(1, "EXPECTED : ", 12);
-	int ret2 = printf("[%#016.13x]", 555);
+	int ret2 = printf("[%.s]", "hi there");
 	printf("\nMy return       : %d\n", ret1);
 	printf("Expected return : %d\n", ret2);
 	return (0);
