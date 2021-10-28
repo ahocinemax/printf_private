@@ -86,10 +86,13 @@ void	ft_display_num(va_list lst_param, int *count, int *flags)
 		ptr = va_arg(lst_param, long);
 		ft_count_hexa(ptr, flags);
 		flags[_LEN_VAR] += 2;
-		ft_putflag(flags, count, flags[_LEN_VAR]);
+		ft_putspace(flags, count, flags[_LEN_VAR]);
 		ft_putstr_fd("0x", _STD_OUT, count);
 		if (ptr == -1)
+		{
+			flags[_LEN_VAR] = 18;
 			ft_putstr_fd("ffffffffffffffff", _STD_OUT, count);
+		}
 		else
 			ft_putnbr_ptr(ptr, _STD_OUT, count);
 	}

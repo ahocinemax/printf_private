@@ -12,6 +12,16 @@
 
 #include "ft_printf.h"
 
+void	ft_putzero(int *flags, int *count, int len)
+{
+	if (flags[_ZERO] == 1 && flags[_WIDTH_Z] > 0)
+	{
+		flags[_WIDTH_Z] -= len;
+		while (flags[_WIDTH_Z]-- > 0 && flags[_LEN_VAR]++)
+			ft_putchar_fd('0', _STD_OUT, count);
+	}
+}
+
 static int	ft_count_flags(const char *str)
 {
 	size_t	i;
@@ -67,9 +77,18 @@ static void	ft_write_line(char **line, va_list lst_param, int *count)
 		ft_flags_b1(&split, flags);
 		ft_flags_b2(&split, flags);
 		flags[_TYP_VAR] = ft_conversion(&split);
+		if (flags[_POINT] > 0 && !flags[_ZERO])
+		{
+			if (flags[10] == 0 || flags[10] == 3 || flags[10] == 4 || flags[10] == 6)
+			{
+				flags[_WIDTH_Z] = flags[_WIDTH_P];
+				flags[_POINT] = 0;
+				flags[_ZERO] = 1;
+			}
+		}
 		ft_display_num(lst_param, count, flags);
 		ft_display_text(lst_param, count, flags);
-		while (flags[_WIDTH_M]-- > flags[_LEN_VAR])
+		while (flags[_MINUS] && flags[_WIDTH_M]-- > flags[_LEN_VAR])
 			ft_putchar_fd(' ', _STD_OUT, count);
 	}
 	ft_putstr_fd(split, _STD_OUT, count);

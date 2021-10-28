@@ -47,40 +47,43 @@ void	ft_flags_b1(char **str, int *flags)
 void	ft_int(int res, int *flags, int *count)
 {
 	flags[_LEN_VAR] = ft_counter(res);
-	if (res >= 0 && flags[_PLUS] > 0)
+	ft_putspace(flags, count, flags[_LEN_VAR]);
+	if (res >= 0 && flags[_PLUS])
 		ft_putchar_fd('+', _STD_OUT, count);
-	else if (res >= 0 && flags[_SPACE] > 0)
+	else if (res >= 0 && flags[_SPACE])
 		ft_putchar_fd(' ', _STD_OUT, count);
-	if (flags[_POINT])
-		flags[_WIDTH_P] -= flags[_LEN_VAR];
-	ft_putflag(flags, count, flags[_LEN_VAR]);
-	if (res < 0)
+	else if (res < 0)
 	{
 		res = -res;
 		ft_putchar_fd('-', _STD_OUT, count);
+		if (!flags[_MINUS] || flags[_ZERO])
+			flags[_LEN_VAR]--;
 	}
-	ft_putlong_fd(res, _STD_OUT, count);
-	if (flags[_WIDTH_Z] > 0 && flags[_MINUS])
+	ft_putzero(flags, count, flags[_LEN_VAR]);
+	if (flags[_ZERO] && !flags[_WIDTH_Z] && !res)
 	{
-		flags[_WIDTH_Z] -= flags[_LEN_VAR];
-		ft_putflag(flags, count, flags[_LEN_VAR]);
+		flags[_LEN_VAR] = 0;
+		return ;
 	}
+	else
+		ft_putlong_fd(res, _STD_OUT, count);
 }
 
 void	ft_long(long ptr, int *flags, int *count)
 {
 	flags[_LEN_VAR] = ft_counter(ptr);
-	ft_putflag(flags, count, flags[_LEN_VAR]);
-	if (flags[_PLUS] > 1 && ptr > 0)
+	ft_putspace(flags, count, flags[_LEN_VAR]);
+	if (flags[_PLUS] > 1 && ptr >= 0)
 		ft_putchar_fd('+', _STD_OUT, count);
 	else if (flags[_SPACE] && ptr > 0)
 		ft_putchar_fd(' ', _STD_OUT, count);
 	else if (ptr < 0)
 		ft_putchar_fd('-', _STD_OUT, count);
-	flags[_WIDTH_Z] -= flags[_LEN_VAR];
-	ft_putlong_fd(ptr, _STD_OUT, count);
-	if (flags[_WIDTH_M] - 1 > 0 && flags[_MINUS])
-		ft_putflag(flags, count, flags[_LEN_VAR]);
+	ft_putzero(flags, count, flags[_LEN_VAR]);
+	if (flags[_ZERO] && !flags[_WIDTH_Z] && !ptr)
+		return ;
+	else
+		ft_putlong_fd(ptr, _STD_OUT, count);
 }
 
 void	ft_hexa(long ptr, int *flags, int *count)
@@ -89,19 +92,14 @@ void	ft_hexa(long ptr, int *flags, int *count)
 		flags[_LEN_VAR] = 8;
 	else
 		ft_count_hexa(ptr, flags);
-	ft_putflag(flags, count, flags[_LEN_VAR]);
-	if (flags[_POINT] == 1 && flags[_WIDTH_P] == 0)
+	ft_putspace(flags, count, flags[_LEN_VAR]);
+	if (flags[_TYP_VAR] == _NBR_HEX_MIN && flags[_HASH] && ptr)
+		ft_putstr_fd("0x", _STD_OUT, count);
+	else if (flags[_TYP_VAR] == _NBR_HEX_MAX && flags[_HASH] && ptr)
+		ft_putstr_fd("0X", _STD_OUT, count);
+	ft_putzero(flags, count, flags[_LEN_VAR]);
+	if (flags[_ZERO] && !flags[_WIDTH_Z] && !ptr)
 		return ;
-	if (flags[_TYP_VAR] == _NBR_HEX_MIN)
-	{
-		if (flags[_HASH] && ptr)
-			ft_putstr_fd("0x", _STD_OUT, count);
-		ft_putnbr_hexa(ptr, count, flags);
-	}
 	else
-	{
-		if (flags[_HASH] && ptr)
-			ft_putstr_fd("0X", _STD_OUT, count);
 		ft_putnbr_hexa(ptr, count, flags);
-	}
 }

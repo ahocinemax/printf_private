@@ -18,9 +18,9 @@ int	main(void)
 	int		i;
 
 	i = 0;
-	write(1, "[%012.11X]\n", 12);
+	write(1, "[%.s]\n", 7);
 	printf("*************** SPLIT RESULT ***************\n");
-	res = ft_split_printf("[%012.11X]\n", '%');
+	res = ft_split_printf("[%.s]\n", '%');
 	while (res[i])
 	{
 		printf("\'%s\'\n", res[i]);

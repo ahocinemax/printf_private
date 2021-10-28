@@ -12,39 +12,13 @@
 
 #include "ft_printf.h"
 
-void	ft_putflag(int *flags, int *count, int len)
+void	ft_putspace(int *flags, int *count, int len)
 {
-	if (flags[_ZERO] && flags[_POINT] && flags[_WIDTH_Z] > flags[_WIDTH_P])
+	if (flags[_ZERO] == 2 && flags[_WIDTH_Z] > 0)
 	{
-		while (flags[_WIDTH_Z]-- != (flags[_LEN_VAR] || flags[_WIDTH_P]))
-		{
-			if (flags[_TYP_VAR] == _STRING || flags[_TYP_VAR] == _CHAR)
-				ft_putchar_fd(' ', _STD_OUT, count);
-			else
-				ft_putchar_fd('0', _STD_OUT, count);
-		}
-	}
-	if (flags[_POINT] && flags[_WIDTH_Z] < flags[_WIDTH_P])
-		flags[_WIDTH_Z] = flags[_WIDTH_P] - len;
-	else
 		flags[_WIDTH_Z] -= len;
-	if (flags[_WIDTH_Z] > 0 || flags[_WIDTH_M] > 0)
-	{
-		if (flags[_ZERO] > 0)
-		{
-			while (flags[_WIDTH_Z]-- && flags[_LEN_VAR]++)
-			{
-				if (flags[_ZERO] == 1)
-					ft_putchar_fd('0', _STD_OUT, count);
-				else
-					ft_putchar_fd(' ', _STD_OUT, count);
-			}
-		}
-		else if (flags[_MINUS] > 0)
-		{
-			while (flags[_WIDTH_M]-- && flags[_LEN_VAR]++)
-				ft_putchar_fd(' ', _STD_OUT, count);
-		}
+		while (flags[_WIDTH_Z]-- > 0 && flags[_LEN_VAR]++)
+			ft_putchar_fd(' ', _STD_OUT, count);
 	}
 }
 
@@ -52,7 +26,6 @@ void	ft_flags_b2(char **str, int *flags)
 {
 	while (**str && (**str == '-' || (**str >= '0' && **str <= '9') || **str == '.'))
 	{
-		printf("::%c\n", **str);
 		if (**str == '-')
 		{
 			flags[_MINUS] = 1;
@@ -78,7 +51,7 @@ void	ft_flags_b2(char **str, int *flags)
 			if (**str && **str >= '0' && **str <= '9')
 				flags[_WIDTH_P] = ft_atoi(*str);
 			else
-				flags[_WIDTH_P] = -1;
+				flags[_WIDTH_P] = 0;
 			while (**str && **str >= '0' && **str <= '9')
 				(*str)++;
 		}
@@ -94,9 +67,9 @@ void	ft_display_text(va_list lst_param, int *count, int *flags)
 	{
 		letter = (char)va_arg(lst_param, int);
 		flags[_LEN_VAR] = 1;
+		ft_putspace(flags, count, 1);
 		if (flags[_POINT] > 0 && flags[_WIDTH_P] < 1)
 			return ;
-		ft_putflag(flags, count, 1);
 		ft_putchar_fd(letter, _STD_OUT, count);
 	}
 	else if (flags[_TYP_VAR] == _STRING)
@@ -105,12 +78,15 @@ void	ft_display_text(va_list lst_param, int *count, int *flags)
 		if (!str)
 			str = "(null)";
 		flags[_LEN_VAR] = ft_strlen(str);
-		ft_putflag(flags, count, flags[_LEN_VAR]);
-		if (!flags[_POINT] || (flags[_WIDTH_P] > flags[_LEN_VAR]))
-			ft_putstr_fd(str, _STD_OUT, count);
-		else
-			while (flags[_WIDTH_P]-- && str)
+		ft_putspace(flags, count, flags[_LEN_VAR]);
+		if (flags[_POINT] && flags[_WIDTH_P] < flags[_LEN_VAR])
+		{
+			flags[_LEN_VAR] = flags[_WIDTH_P];
+			while (flags[_WIDTH_P]-- > 0)
 				ft_putchar_fd(*(str++), _STD_OUT, count);
+		}
+		else
+			ft_putstr_fd(str, _STD_OUT, count);
 	}
 }
 

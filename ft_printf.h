@@ -67,8 +67,9 @@ char	*ft_itoa(long nb);
 // Diplay functions
 
 void	ft_putnbr_hexa(long long nbr, int *count, int *flags);
-void	ft_putflag(int *flags, int *count, int len);
 void	ft_putnbr_ptr(long long nbr, int fd, int *count);
+void	ft_putspace(int *flags, int *count, int len);
+void	ft_putzero(int *flags, int *count, int len);
 void	ft_putchar_fd(char c, int fd, int *count);
 void	ft_putstr_fd(char *s, int fd, int *count);
 void	ft_putlong_fd(long n, int fd, int *count);
