@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	ft_putnbr_hexa(long long nbr, int *count, int *flags)
+void	ft_putnbr_hexa(unsigned int nbr, int *count, int *flags)
 {
 	if (nbr >= 16)
 	{
@@ -80,7 +80,7 @@ void	ft_display_num(va_list lst_param, int *count, int *flags)
 	else if (flags[_TYP_VAR] == _LONG)
 		ft_long(va_arg(lst_param, long), flags, count);
 	else if (flags[_TYP_VAR] == _NBR_HEX_MIN || flags[_TYP_VAR] == _NBR_HEX_MAX)
-		ft_hexa(va_arg(lst_param, long), flags, count);
+		ft_hexa(va_arg(lst_param, unsigned int), flags, count);
 	else if (flags[_TYP_VAR] == _PTR_HEX)
 	{
 		ptr = va_arg(lst_param, long);

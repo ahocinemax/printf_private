@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-void	ft_count_hexa(long long nbr, int *flags)
+void	ft_count_hexa(long nbr, int *flags)
 {
 	if (nbr >= 16)
 	{
@@ -48,19 +48,24 @@ void	ft_int(int res, int *flags, int *count)
 {
 	int	neg;
 
-	flags[_LEN_VAR] = ft_counter(res);
-	//printf("%d\n", flags[_LEN_VAR]);
+	if (!res && flags[_POINT] && !flags[_WIDTH_P])
+		flags[_LEN_VAR] = 0;
+	else
+		flags[_LEN_VAR] = ft_counter(res);
+	//printf("lenvar : %d\n", flags[_LEN_VAR]);
+	if (flags[_SPACE] == 2 && flags[_ZERO] == 3 && res < 0)
+		flags[_WIDTH_S]--;
 	ft_putspace(flags, count, flags[_LEN_VAR]);
 	if (res >= 0 && flags[_PLUS])
 		ft_putchar_fd('+', _STD_OUT, count);
-	else if (res >= 0 && flags[_SPACE])
+	else if (res >= 0 && flags[_SPACE] == 1)
 		ft_putchar_fd(' ', _STD_OUT, count);
 	else if (res < 0)
 	{
 		res = -res;
 		neg = -1;
 		ft_putchar_fd('-', _STD_OUT, count);
-		if (flags[_ZERO] == 3)
+		if (flags[_ZERO] > 1 && neg < 0)
 			flags[_LEN_VAR]--;
 	}
 	ft_putzero(flags, count, flags[_LEN_VAR]);
@@ -77,7 +82,10 @@ void	ft_int(int res, int *flags, int *count)
 
 void	ft_long(long ptr, int *flags, int *count)
 {
-	flags[_LEN_VAR] = ft_counter(ptr);
+	if (!ptr && flags[_POINT] && !flags[_WIDTH_P])
+		flags[_LEN_VAR] = 0;
+	else
+		flags[_LEN_VAR] = ft_counter(ptr);
 	ft_putspace(flags, count, flags[_LEN_VAR]);
 	if (flags[_PLUS] > 1 && ptr >= 0)
 		ft_putchar_fd('+', _STD_OUT, count);
@@ -95,12 +103,14 @@ void	ft_long(long ptr, int *flags, int *count)
 		ft_putlong_fd(ptr, _STD_OUT, count);
 }
 
-void	ft_hexa(long ptr, int *flags, int *count)
+void	ft_hexa(unsigned int ptr, int *flags, int *count)
 {
 	if (ptr == 4294967295)
 		flags[_LEN_VAR] = 8;
+	else if (!ptr && flags[_POINT] && !flags[_WIDTH_Z])
+		flags[_LEN_VAR] = 0;
 	else
-		ft_count_hexa(ptr, flags);
+		ft_count_hexa((long)ptr, flags);
 	ft_putspace(flags, count, flags[_LEN_VAR]);
 	if (flags[_TYP_VAR] == _NBR_HEX_MIN && flags[_HASH] && ptr)
 		ft_putstr_fd("0x", _STD_OUT, count);

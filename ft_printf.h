@@ -55,9 +55,9 @@ void	ft_display_text(va_list param, int *c, int *flags);
 
 // Utils
 
-void	ft_hexa(long ptr, int *flags, int *count);
+void	ft_hexa(unsigned int ptr, int *flags, int *count);
 void	ft_long(long ptr, int *flags, int *count);
-void	ft_count_hexa(long long nbr, int *flags);
+void	ft_count_hexa(long nbr, int *flags);
 void	ft_int(int res, int *flags, int *count);
 int		ft_strlen(const char *str);
 void	ft_init_flags(int *flags);
@@ -67,7 +67,7 @@ char	*ft_itoa(long nb);
 
 // Diplay functions
 
-void	ft_putnbr_hexa(long long nbr, int *count, int *flags);
+void	ft_putnbr_hexa(unsigned int nbr, int *count, int *flags);
 void	ft_putnbr_ptr(long long nbr, int fd, int *count);
 void	ft_putspace(int *flags, int *count, int len);
 void	ft_putzero(int *flags, int *count, int len);
