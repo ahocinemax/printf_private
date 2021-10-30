@@ -20,6 +20,12 @@ void	ft_putspace(int *flags, int *count, int len)
 		while (flags[_WIDTH_Z]-- > 0 && flags[_LEN_VAR]++)
 			ft_putchar_fd(' ', _STD_OUT, count);
 	}
+	else if (flags[_SPACE] == 2 && flags[_WIDTH_S] > 0)
+	{
+		flags[_WIDTH_S] -= len;
+		while (flags[_WIDTH_S]-- > 0 && flags[_LEN_VAR]++)
+			ft_putchar_fd(' ', _STD_OUT, count);
+	}
 }
 
 void	ft_flags_b2(char **str, int *flags)

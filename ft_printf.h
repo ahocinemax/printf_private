@@ -30,6 +30,7 @@
 # define _WIDTH_Z		6
 # define _WIDTH_P		7
 # define _WIDTH_M		8
+# define _WIDTH_S		11
 # define _LEN_VAR		9
 # define _TYP_VAR		10
 

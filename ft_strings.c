@@ -40,6 +40,7 @@ void	ft_putstr_fd(char *s, int fd, int *count)
 void	ft_init_flags(int *flags)
 {
 	flags[_WIDTH_P] = 0;
+	flags[_WIDTH_S] = 0;
 	flags[_WIDTH_Z] = 0;
 	flags[_WIDTH_M] = 0;
 	flags[_LEN_VAR] = 0;

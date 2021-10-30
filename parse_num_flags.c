@@ -57,21 +57,22 @@ void	ft_int(int res, int *flags, int *count)
 		ft_putchar_fd(' ', _STD_OUT, count);
 	else if (res < 0)
 	{
-		neg = -1;
 		res = -res;
+		neg = -1;
 		ft_putchar_fd('-', _STD_OUT, count);
-		flags[_LEN_VAR]--;
+		if (flags[_ZERO] == 3)
+			flags[_LEN_VAR]--;
 	}
 	ft_putzero(flags, count, flags[_LEN_VAR]);
-	if (flags[_ZERO] && !flags[_WIDTH_Z] && !res)
+	if (((flags[_ZERO] && !flags[_WIDTH_Z]) || (flags[_SPACE] && !flags[_WIDTH_S])) && !res)
 	{
 		flags[_LEN_VAR] = 0;
 		return ;
 	}
 	else
 		ft_putlong_fd(res, _STD_OUT, count);
-	if (neg == -1)
-		flags[_LEN_VAR]++;
+	if (flags[_ZERO] == 3 && neg == -1)
+			flags[_LEN_VAR]++;
 }
 
 void	ft_long(long ptr, int *flags, int *count)
