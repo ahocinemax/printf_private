@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
 void	ft_putspace(int *flags, int *count, int len)
 {
 	if (flags[_ZERO] == 2 && !flags[_SPACE] && flags[_WIDTH_Z] > 0)
@@ -22,21 +21,19 @@ void	ft_putspace(int *flags, int *count, int len)
 			flags[_WIDTH_Z] -= len;
 		while (flags[_WIDTH_Z]-- > 0)
 			ft_putchar_fd(' ', _STD_OUT, count);
-		flags[_WIDTH_Z]++;
 	}
-	else if (flags[_SPACE] >= 2 && flags[_WIDTH_S] > 0)
+	else if (flags[_SPACE] == 2 && flags[_WIDTH_S] > 0)
 	{
 		if (flags[_WIDTH_Z] >= len)
 		{
 			if (flags[_ZERO])
-				flags[_WIDTH_S] -= flags[_WIDTH_Z];
+				flags[_WIDTH_S] -= flags[_WIDTH_Z] + (flags[_NEG]);
 			flags[_WIDTH_S] -= flags[_WIDTH_P];
 		}
 		else
 			flags[_WIDTH_S] -= len;
 		while (flags[_WIDTH_S]-- > 0)
 			ft_putchar_fd(' ', _STD_OUT, count);
-		flags[_WIDTH_S]++;
 	}
 }
 
@@ -99,7 +96,10 @@ int	ft_counter(long n, int *flags)
 		return (0);
 	len = 1;
 	if (n < 0)
+	{
 		len++;
+		flags[_NEG] = 1;
+	}
 	while (n < -9 || n > 9)
 	{
 		n /= 10;

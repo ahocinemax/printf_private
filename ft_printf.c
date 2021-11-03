@@ -73,7 +73,7 @@ static int	ft_conversion(char **str, int *flags)
 static void	ft_write_line(char **line, va_list lst_param, int *count)
 {
 	char	*split;
-	int		flags[12];
+	int		flags[13];
 
 	ft_init_flags(flags);
 	split = *line;

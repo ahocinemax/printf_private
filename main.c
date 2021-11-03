@@ -20,9 +20,9 @@ int	main(void)
 	int		ret2;
 
 	i = 0;
-	write(1, "[%.s]\n", 7);
+	write(1, "[ %p %p ]", 10);
 	printf("*************** SPLIT RESULT ***************\n");
-	res = ft_split_printf("[%.s]\n", '%');
+	res = ft_split_printf(" %p %p ", '%');
 	while (res[i])
 	{
 		printf("\'%s\'\n", res[i]);
@@ -31,10 +31,10 @@ int	main(void)
 	free(res);
 	printf("\n*************** PRINTF RESULT ***************\n");
 	write(1, "GOT      : ", 12);
-	ret1 = ft_printf("[%.s]", "hi there");
+	ret1 = ft_printf(" %p %p ", LONG_MIN, LONG_MAX);
 	write(1, "\n", 2);
 	write(1, "EXPECTED : ", 12);
-	ret2 = printf("[%.s]", "hi there");
+	ret2 = printf(" %p %p ", LONG_MIN, LONG_MAX);
 	printf("\nMy return       : %d\n", ret1);
 	printf("Expected return : %d\n", ret2);
 	return (0);

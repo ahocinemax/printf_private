@@ -51,6 +51,7 @@ void	ft_init_flags(int *flags)
 	flags[_PLUS] = 0;
 	flags[_HASH] = 0;
 	flags[_ZERO] = 0;
+	flags[_NEG] = 0;
 }
 
 int	ft_atoi(char *nb)

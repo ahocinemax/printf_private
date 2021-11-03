@@ -36,9 +36,13 @@
 # define _LEN_VAR		9
 # define _TYP_VAR		10
 # define _WIDTH_S		11
+# define _NEG			12
 
 # define BASE16_MIN		"0123456789abcdef"
 # define BASE16_MAJ 	"0123456789ABCDEF"
+
+# define LONG_MIN		-9223372036854775808
+# define LONG_MAX		9223372036854775807
 
 # include <stdarg.h>
 # include <unistd.h>
