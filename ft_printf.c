@@ -17,8 +17,11 @@ void	ft_putzero(int *flags, int *count, int len)
 	if ((flags[_ZERO] == 1 || flags[_ZERO] == 3) && flags[_WIDTH_Z] > 0)
 	{
 		flags[_WIDTH_Z] -= len;
-		while (flags[_WIDTH_Z]-- > 0 && flags[_LEN_VAR]++)
+		while (flags[_WIDTH_Z]-- > 0)
+		{
+			flags[_LEN_VAR]++;
 			ft_putchar_fd('0', _STD_OUT, count);
+		}
 	}
 }
 
@@ -40,7 +43,7 @@ static int	ft_count_flags(const char *str)
 	return (res);
 }
 
-static int	ft_conversion(char **str)
+static int	ft_conversion(char **str, int *flags)
 {
 	int	res;
 
@@ -49,7 +52,10 @@ static int	ft_conversion(char **str)
 	else if (**str == 'u')
 		res = _LONG;
 	else if (**str == 'c')
+	{
 		res = _CHAR;
+		flags[_LEN_VAR] = 1;
+	}
 	else if (**str == 's')
 		res = _STRING;
 	else if (**str == 'x')
@@ -76,43 +82,10 @@ static void	ft_write_line(char **line, va_list lst_param, int *count)
 		split++;
 		ft_flags_b1(&split, flags);
 		ft_flags_b2(&split, flags);
-		flags[_TYP_VAR] = ft_conversion(&split);
-		if (flags[_POINT] && !flags[_ZERO])
-		{
-			if (flags[10] != 1 && flags[10] != 2 && flags[10] != 5)
-			{
-				flags[_WIDTH_Z] = flags[_WIDTH_P];
-				flags[_POINT] = 0;
-				flags[_ZERO] = 3;
-			}
-		}
-		else if (flags[_POINT] > 0 && flags[_ZERO])
-		{
-			if (flags[10] != 1 && flags[10] != 2 && flags[10] != 5)
-			{
-				if (!flags[_WIDTH_P])
-				{
-					flags[_WIDTH_S] = flags[_WIDTH_Z];
-					flags[_WIDTH_Z] = 0;
-				}
-				else if (flags[_WIDTH_Z] > flags[_WIDTH_P])
-				{
-					flags[_WIDTH_S] = flags[_WIDTH_Z] - flags[_WIDTH_P];
-					flags[_WIDTH_Z] = flags[_WIDTH_P];
-					//printf("%d :: %d", flags[_WIDTH_Z], flags[_WIDTH_S]);
-				}
-				else if (flags[_WIDTH_Z] < flags[_WIDTH_P])
-				{
-					flags[_WIDTH_Z] = flags[_WIDTH_P];
-					flags[_WIDTH_P] = 0;
-				}
-				flags[_SPACE] = 2;
-				flags[_ZERO] = 3;
-			}
-		}
+		flags[_TYP_VAR] = ft_conversion(&split, flags);
+		ft_parse_flags(flags);
 		ft_display_num(lst_param, count, flags);
 		ft_display_text(lst_param, count, flags);
-		//printf("%d :: %d", flags[_LEN_VAR], flags[_WIDTH_Z]);
 		while (flags[_MINUS] && flags[_WIDTH_M]-- > flags[_LEN_VAR])
 			ft_putchar_fd(' ', _STD_OUT, count);
 	}

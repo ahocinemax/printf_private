@@ -16,6 +16,8 @@ int	main(void)
 {
 	char	**res;
 	int		i;
+	int		ret1;
+	int		ret2;
 
 	i = 0;
 	write(1, "[%.s]\n", 7);
@@ -24,16 +26,15 @@ int	main(void)
 	while (res[i])
 	{
 		printf("\'%s\'\n", res[i]);
-		free(res[i]);
-		i++;
+		free(res[i++]);
 	}
 	free(res);
 	printf("\n*************** PRINTF RESULT ***************\n");
 	write(1, "GOT      : ", 12);
-	int ret1 = ft_printf("[%.s]", "hi there");
+	ret1 = ft_printf("[%.s]", "hi there");
 	write(1, "\n", 2);
 	write(1, "EXPECTED : ", 12);
-	int ret2 = printf("[%.s]", "hi there");
+	ret2 = printf("[%.s]", "hi there");
 	printf("\nMy return       : %d\n", ret1);
 	printf("Expected return : %d\n", ret2);
 	return (0);

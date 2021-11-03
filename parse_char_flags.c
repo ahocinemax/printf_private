@@ -14,54 +14,50 @@
 
 void	ft_putspace(int *flags, int *count, int len)
 {
-	if (flags[_ZERO] == 2 && flags[_WIDTH_Z] > 0)
+	if (flags[_ZERO] == 2 && !flags[_SPACE] && flags[_WIDTH_Z] > 0)
 	{
-		flags[_WIDTH_Z] -= len;
-		while (flags[_WIDTH_Z]-- > 0 && flags[_LEN_VAR]++)
-		{
+		if (flags[_WIDTH_P] > len)
+			flags[_WIDTH_Z] -= flags[_WIDTH_S];
+		else
+			flags[_WIDTH_Z] -= len;
+		while (flags[_WIDTH_Z]-- > 0)
 			ft_putchar_fd(' ', _STD_OUT, count);
-			flags[_LEN_VAR]++;
-		}
+		flags[_WIDTH_Z]++;
 	}
-	else if (flags[_SPACE] == 2 && flags[_WIDTH_S] > 0)
+	else if (flags[_SPACE] >= 2 && flags[_WIDTH_S] > 0)
 	{
+		if (flags[_WIDTH_Z] >= len)
+		{
+			if (flags[_ZERO])
+				flags[_WIDTH_S] -= flags[_WIDTH_Z];
+			flags[_WIDTH_S] -= flags[_WIDTH_P];
+		}
+		else
+			flags[_WIDTH_S] -= len;
 		while (flags[_WIDTH_S]-- > 0)
 			ft_putchar_fd(' ', _STD_OUT, count);
+		flags[_WIDTH_S]++;
 	}
 }
 
-void	ft_flags_b2(char **str, int *flags)
+void	ft_flags_b2(char **s, int *flags)
 {
-	while (**str && (**str == '-' || (**str >= '0' && **str <= '9') || **str == '.'))
+	while (**s && (**s == '-' || (**s >= '0' && **s <= '9') || **s == '.'))
 	{
-		if (**str == '-')
-		{
-			flags[_MINUS] = 1;
-			(*str)++;
-			flags[_WIDTH_M] = ft_atoi(*str);
-			while (**str && **str >= '0' && **str <= '9')
-				(*str)++;
-		}
-		if (**str >= '0' && **str <= '9')
-		{
-			if (**str == '0')
-				flags[_ZERO] = 1;
-			else
-				flags[_ZERO] = 2;
-			flags[_WIDTH_Z] = ft_atoi(*str);
-			while (**str && **str >= '0' && **str <= '9')
-				(*str)++;
-		}
-		if (**str == '.')
+		if (**s == '-')
+			ft_minus(flags, s);
+		if (**s >= '0' && **s <= '9')
+			ft_zero(flags, s);
+		if (**s == '.')
 		{
 			flags[_POINT] = 1;
-			(*str)++;
-			if (**str && **str >= '0' && **str <= '9')
-				flags[_WIDTH_P] = ft_atoi(*str);
+			(*s)++;
+			if (**s && **s >= '0' && **s <= '9')
+				flags[_WIDTH_P] = ft_atoi(*s);
 			else
 				flags[_WIDTH_P] = 0;
-			while (**str && **str >= '0' && **str <= '9')
-				(*str)++;
+			while (**s && **s >= '0' && **s <= '9')
+				(*s)++;
 		}
 	}
 }
@@ -69,16 +65,13 @@ void	ft_flags_b2(char **str, int *flags)
 void	ft_display_text(va_list lst_param, int *count, int *flags)
 {
 	char	*str;
-	char	letter;
 
 	if (flags[_TYP_VAR] == _CHAR)
 	{
-		letter = (char)va_arg(lst_param, int);
-		flags[_LEN_VAR] = 1;
 		ft_putspace(flags, count, 1);
 		if (flags[_POINT] > 0 && flags[_WIDTH_P] < 1)
 			return ;
-		ft_putchar_fd(letter, _STD_OUT, count);
+		ft_putchar_fd((char)va_arg(lst_param, int), _STD_OUT, count);
 	}
 	else if (flags[_TYP_VAR] == _STRING)
 	{
@@ -98,10 +91,12 @@ void	ft_display_text(va_list lst_param, int *count, int *flags)
 	}
 }
 
-int	ft_counter(long n)
+int	ft_counter(long n, int *flags)
 {
 	int	len;
 
+	if (!n && flags[_POINT] && !flags[_WIDTH_Z])
+		return (0);
 	len = 1;
 	if (n < 0)
 		len++;
@@ -113,13 +108,13 @@ int	ft_counter(long n)
 	return (len);
 }
 
-char	*ft_itoa(long n)
+char	*ft_itoa(long n, int *flags)
 {
 	char	*res;
 	size_t	index;
 	long	nbr;
 
-	index = ft_counter(n);
+	index = ft_counter(n, flags);
 	nbr = n;
 	if (nbr < 0)
 		nbr = -nbr;
