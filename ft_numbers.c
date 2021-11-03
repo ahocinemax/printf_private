@@ -28,7 +28,7 @@ void	ft_putnbr_hexa(unsigned int nbr, int *count, int *flags)
 	}
 }
 
-void	ft_putnbr_ptr(long long nbr, int fd, int *count)
+void	ft_putnbr_ptr(unsigned long nbr, int fd, int *count)
 {
 	if (nbr >= 16)
 	{
@@ -43,12 +43,12 @@ void	ft_putlong_fd(long n, int fd, int *count)
 {
 	if (n < 0)
 		n *= -1;
-	if (n < 10)
+	if (n >= 0 && n < 10)
 		ft_putchar_fd(n + '0', fd, count);
 	else
 	{
-		ft_putnbr_fd(n / 10, fd, count);
-		ft_putnbr_fd(n % 10, fd, count);
+		ft_putlong_fd(n / 10, fd, count);
+		ft_putlong_fd(n % 10, fd, count);
 	}
 }
 
@@ -71,9 +71,9 @@ void	ft_putnbr_fd(int n, int fd, int *count)
 	}
 }
 
-void	ft_display_num(va_list lst_param, int *count, int *flags)
+int	ft_display_num(va_list lst_param, int *count, int *flags)
 {
-	long long	ptr;
+	unsigned long	ptr;
 
 	if (flags[_TYP_VAR] == _INT)
 		ft_int(va_arg(lst_param, int), flags, count);
@@ -88,7 +88,7 @@ void	ft_display_num(va_list lst_param, int *count, int *flags)
 		flags[_LEN_VAR] += 2;
 		ft_putspace(flags, count, flags[_LEN_VAR]);
 		ft_putstr_fd("0x", _STD_OUT, count);
-		if (ptr == -1)
+		if (ptr == (unsigned long)UINT_MIN)
 		{
 			flags[_LEN_VAR] = 18;
 			ft_putstr_fd("ffffffffffffffff", _STD_OUT, count);
@@ -96,4 +96,7 @@ void	ft_display_num(va_list lst_param, int *count, int *flags)
 		else
 			ft_putnbr_ptr(ptr, _STD_OUT, count);
 	}
+	else
+		return (0);
+	return (1);
 }

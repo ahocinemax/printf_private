@@ -59,13 +59,22 @@ void	ft_int(int res, int *flags, int *count)
 
 void	ft_long(long ptr, int *flags, int *count)
 {
-	flags[_LEN_VAR] = ft_counter(ptr, flags);
+	unsigned long long	nbr;
+
+	nbr = 0;
+	if ((long)ptr == LLONG_MIN)
+	{
+		nbr = ptr;
+		flags[_LEN_VAR] = 17;
+	}
+	else
+		flags[_LEN_VAR] = ft_counter(ptr, flags);
 	ft_putspace(flags, count, flags[_LEN_VAR]);
 	if (flags[_PLUS] > 1 && ptr >= 0)
 		ft_putchar_fd('+', _STD_OUT, count);
 	else if (flags[_SPACE] == 1 && ptr > 0)
 		ft_putchar_fd(' ', _STD_OUT, count);
-	else if (ptr < 0)
+	else if (ptr < 0 || nbr < 0)
 		ft_putchar_fd('-', _STD_OUT, count);
 	ft_putzero(flags, count, flags[_LEN_VAR]);
 	if (flags[_ZERO] && flags[_ZERO] != 2 && !flags[_WIDTH_Z] && !ptr)
@@ -73,13 +82,20 @@ void	ft_long(long ptr, int *flags, int *count)
 		flags[_LEN_VAR] = 0;
 		return ;
 	}
+	else if (ptr == LLONG_MIN && nbr)
+	{
+		ft_putllong_fd(nbr, _STD_OUT, count);
+	}
 	else
+	{
+		printf("[nbr : %u]\n", (unsigned int)nbr);
 		ft_putlong_fd(ptr, _STD_OUT, count);
+	}
 }
 
 void	ft_hexa(unsigned int ptr, int *flags, int *count)
 {
-	if (ptr == 4294967295)
+	if (ptr == LONG_MAX)
 		flags[_LEN_VAR] = 8;
 	else if (!ptr && flags[_POINT] && !flags[_WIDTH_Z])
 		flags[_LEN_VAR] = 0;

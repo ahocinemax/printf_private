@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
 void	ft_putspace(int *flags, int *count, int len)
 {
 	if (flags[_ZERO] == 2 && !flags[_SPACE] && flags[_WIDTH_Z] > 0)

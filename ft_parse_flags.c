@@ -80,3 +80,16 @@ void	ft_zero(int *flags, char **s)
 	while (**s && **s >= '0' && **s <= '9')
 		(*s)++;
 }
+
+void	ft_putllong_fd(unsigned long long nbr, int fd, int *count)
+{
+	if (nbr < 0)
+		nbr *= -1;
+	if (nbr < 10)
+		ft_putchar_fd(nbr + '0', fd, count);
+	else
+	{
+		ft_putlong_fd(nbr / 10, fd, count);
+		ft_putlong_fd(nbr % 10, fd, count);
+	}
+}

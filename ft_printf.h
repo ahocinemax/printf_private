@@ -22,6 +22,7 @@
 # define _PTR_HEX		5
 # define _LONG			6
 # define _STD_OUT		1
+
 /* MANAGED_FLAGS */
 # define _SPACE			0
 # define _HASH			1
@@ -29,6 +30,7 @@
 # define _ZERO			3
 # define _MINUS			4
 # define _POINT			5
+
 /* SIZE_FLAGS */
 # define _WIDTH_Z		6
 # define _WIDTH_P		7
@@ -41,8 +43,12 @@
 # define BASE16_MIN		"0123456789abcdef"
 # define BASE16_MAJ 	"0123456789ABCDEF"
 
-# define LONG_MIN		-9223372036854775808
-# define LONG_MAX		9223372036854775807
+# define UINT_MIN		-2147483648
+# define UINT_MAX		2147483647
+# define LONG_MIN		-4294967296
+# define LONG_MAX		4294967295
+# define LLONG_MIN		-9223372036854775807 - 1
+# define LLONG_MAX		9223372036854775807
 
 # include <stdarg.h>
 # include <unistd.h>
@@ -58,7 +64,7 @@ char	**ft_split_printf(const char *str, char sep);
 void	ft_flags_b1(char **str, int *flags);
 void	ft_flags_b2(char **str, int *flags);
 void	ft_parse_flags(int *flags);
-void	ft_display_num(va_list param, int *c, int *flags);
+int		ft_display_num(va_list param, int *c, int *flags);
 void	ft_display_text(va_list param, int *c, int *flags);
 
 // Utils
@@ -77,8 +83,9 @@ char	*ft_itoa(long nb, int *flags);
 
 // Diplay functions
 
+void	ft_putllong_fd(unsigned long long nbr, int fd, int *count);
 void	ft_putnbr_hexa(unsigned int nbr, int *count, int *flags);
-void	ft_putnbr_ptr(long long nbr, int fd, int *count);
+void	ft_putnbr_ptr(unsigned long nbr, int fd, int *count);
 void	ft_putspace(int *flags, int *count, int len);
 void	ft_putzero(int *flags, int *count, int len);
 void	ft_putchar_fd(char c, int fd, int *count);
