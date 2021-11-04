@@ -12,6 +12,49 @@
 
 #include "ft_printf.h"
 
+void	ft_flags_b1(char **str, int *flags)
+{
+	if (**str == '#')
+	{
+		flags[_HASH]++;
+		(*str)++;
+	}
+	else if (**str == ' ')
+	{
+		flags[_SPACE]++;
+		while (**str == ' ')
+			(*str)++;
+	}
+	else if (**str == '+')
+	{
+		flags[_PLUS]++;
+		while (**str == '+')
+			(*str)++;
+	}
+}
+
+void	ft_flags_b2(char **s, int *flags)
+{
+	while (**s && (**s == '-' || (**s >= '0' && **s <= '9') || **s == '.'))
+	{
+		if (**s == '-')
+			ft_minus(flags, s);
+		if (**s >= '0' && **s <= '9')
+			ft_zero(flags, s);
+		if (**s == '.')
+		{
+			flags[_POINT] = 1;
+			(*s)++;
+			if (**s && **s >= '0' && **s <= '9')
+				flags[_WIDTH_P] = ft_atoi(*s);
+			else
+				flags[_WIDTH_P] = 0;
+			while (**s && **s >= '0' && **s <= '9')
+				(*s)++;
+		}
+	}
+}
+
 void	ft_parse_flags(int *f)
 {
 	if (f[5] && !f[3] && f[10] != 1 && f[10] != 2 && f[10] != 5)
@@ -40,56 +83,51 @@ void	ft_parse_flags(int *f)
 	}
 }
 
-void	ft_flags_b1(char **str, int *flags)
+void	ft_display_text(va_list lst_param, int *count, int *flags)
 {
-	if (**str == '#')
+	char	*str;
+
+	if (flags[_TYP_VAR] == _CHAR)
 	{
-		flags[_HASH]++;
-		(*str)++;
+		ft_putspace(flags, count, 1);
+		if (flags[_POINT] > 0 && flags[_WIDTH_P] < 1)
+			return ;
+		ft_putchar_fd((char)va_arg(lst_param, int), _STD_OUT, count);
 	}
-	else if (**str == ' ')
+	else if (flags[_TYP_VAR] == _STRING)
 	{
-		flags[_SPACE]++;
-		while (**str == ' ')
-			(*str)++;
-	}
-	else if (**str == '+')
-	{
-		flags[_PLUS]++;
-		while (**str == '+')
-			(*str)++;
+		str = va_arg(lst_param, char *);
+		if (!str)
+			str = "(null)";
+		flags[_LEN_VAR] = ft_strlen(str);
+		ft_putspace(flags, count, flags[_LEN_VAR]);
+		if (flags[_POINT] && flags[_WIDTH_P] < flags[_LEN_VAR])
+		{
+			flags[_LEN_VAR] = flags[_WIDTH_P];
+			while (flags[_WIDTH_P]-- > 0)
+				ft_putchar_fd(*(str++), _STD_OUT, count);
+		}
+		else
+			ft_putstr_fd(str, _STD_OUT, count);
 	}
 }
 
-void	ft_minus(int *flags, char **s)
+int	ft_display_num(va_list lst_param, int *count, int *flags)
 {
-	flags[_MINUS] = 1;
-	(*s)++;
-	flags[_WIDTH_M] = ft_atoi(*s);
-	while (**s && **s >= '0' && **s <= '9')
-		(*s)++;
-}
+	long	ptr;
 
-void	ft_zero(int *flags, char **s)
-{
-	if (**s == '0')
-		flags[_ZERO] = 1;
+	if (flags[_TYP_VAR] == _INT)
+		ft_int(va_arg(lst_param, int), flags, count);
+	else if (flags[_TYP_VAR] == _LONG)
+		ft_long(va_arg(lst_param, unsigned int), flags, count);
+	else if (flags[_TYP_VAR] == _NBR_HEX_MIN || flags[_TYP_VAR] == _NBR_HEX_MAX)
+		ft_hexa(va_arg(lst_param, unsigned int), flags, count);
+	else if (flags[_TYP_VAR] == _PTR_HEX)
+	{
+		ptr = va_arg(lst_param, long);
+		ft_pointer(ptr, flags, count);
+	}
 	else
-		flags[_ZERO] = 2;
-	flags[_WIDTH_Z] = ft_atoi(*s);
-	while (**s && **s >= '0' && **s <= '9')
-		(*s)++;
-}
-
-void	ft_putllong_fd(unsigned long long nbr, int fd, int *count)
-{
-	if (nbr < 0)
-		nbr *= -1;
-	if (nbr < 10)
-		ft_putchar_fd(nbr + '0', fd, count);
-	else
-	{
-		ft_putlong_fd(nbr / 10, fd, count);
-		ft_putlong_fd(nbr % 10, fd, count);
-	}
+		return (0);
+	return (1);
 }

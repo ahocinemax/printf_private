@@ -20,9 +20,9 @@ int	main(void)
 	int		ret2;
 
 	i = 0;
-	write(1, "[%%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %c%%]\n", 107);
+	write(1, "[as soon as %-10possible]\n", 27);
 	printf("*************** SPLIT RESULT ***************\n");
-	res = ft_split_printf("%%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %c%%", '%');
+	res = ft_split_printf("as soon as %-10possible", '%');
 	while (res[i])
 	{
 		printf("\'%s\'\n", res[i]);
@@ -31,10 +31,10 @@ int	main(void)
 	free(res);
 	printf("\n*************** PRINTF RESULT ***************\n");
 	write(1, "GOT      : ", 12);
-	ret1 = ft_printf("%%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %c%%", 'A', "42", 42, 42 ,42 , 42, 42, 'B', "-42", -42, -42 ,-42 ,-42, 42, 'C', "0", 0, 0 ,0 ,0, 42, 0);
+	ret1 = ft_printf("%10s", "nnn");
 	write(1, "\n", 2);
 	write(1, "EXPECTED : ", 12);
-	ret2 = printf("%%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %%%c%%%s%%%d%%%i%%%u%%%x%%%X%%%% %c%%", 'A', "42", 42, 42 ,42 , 42, 42, 'B', "-42", -42, -42 ,-42 ,-42, 42, 'C', "0", 0, 0 ,0 ,0, 42, 0);
+	ret2 = printf("%10s", "nnn");
 	printf("\nMy return       : %d\n", ret1);
 	printf("Expected return : %d\n", ret2);
 	return (0);

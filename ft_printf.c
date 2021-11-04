@@ -12,17 +12,21 @@
 
 #include "ft_printf.h"
 
-void	ft_putzero(int *flags, int *count, int len)
+static void	ft_init_flags(int *flags)
 {
-	if ((flags[_ZERO] == 1 || flags[_ZERO] == 3) && flags[_WIDTH_Z] > 0)
-	{
-		flags[_WIDTH_Z] -= len;
-		while (flags[_WIDTH_Z]-- > 0)
-		{
-			flags[_LEN_VAR]++;
-			ft_putchar_fd('0', _STD_OUT, count);
-		}
-	}
+	flags[_WIDTH_P] = 0;
+	flags[_WIDTH_S] = 0;
+	flags[_WIDTH_Z] = 0;
+	flags[_WIDTH_M] = 0;
+	flags[_LEN_VAR] = 0;
+	flags[_TYP_VAR] = 0;
+	flags[_SPACE] = 0;
+	flags[_POINT] = 0;
+	flags[_MINUS] = 0;
+	flags[_PLUS] = 0;
+	flags[_HASH] = 0;
+	flags[_ZERO] = 0;
+	flags[_NEG] = 0;
 }
 
 static int	ft_count_flags(const char *str)

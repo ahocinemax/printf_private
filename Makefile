@@ -16,9 +16,9 @@ CFLAGS	=	-Wall -Werror -Wextra -c
 
 CC		=	gcc
 
-SRCS	=	ft_parse_flags.c ft_numbers.c ft_printf.c \
-			ft_split_printf.c ft_strings.c \
-			parse_num_flags.c parse_char_flags.c \
+SRCS	=	ft_char_utils.c ft_display.c ft_display_2.c \
+			ft_display_num.c ft_parse_flags.c ft_parse_flags_2.c \
+			ft_printf.c ft_split_printf.c \
 
 INCLUDES	=	ft_printf.h \
 

@@ -1,16 +1,62 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strings.c                                       :+:      :+:    :+:   */
+/*   ft_char_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahocine <ahocine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/16 18:56:16 by ahocine           #+#    #+#             */
-/*   Updated: 2021/09/16 18:56:21 by ahocine          ###   ########.fr       */
+/*   Created: 2021/10/02 20:13:07 by ahocine           #+#    #+#             */
+/*   Updated: 2021/10/02 20:13:53 by ahocine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+int	ft_counter(long n, int *flags)
+{
+	int	len;
+
+	if (!n && flags[_POINT] && !flags[_WIDTH_Z])
+		return (0);
+	len = 1;
+	if (n < 0)
+	{
+		len++;
+		flags[_NEG] = 1;
+	}
+	while (n < -9 || n > 9)
+	{
+		n /= 10;
+		len++;
+	}
+	return (len);
+}
+
+char	*ft_itoa(long n, int *flags)
+{
+	char	*res;
+	size_t	index;
+	long	nbr;
+
+	index = ft_counter(n, flags);
+	nbr = n;
+	if (nbr < 0)
+		nbr = -nbr;
+	res = malloc(sizeof(char) * (index + 1));
+	if (!res)
+		return (NULL);
+	res[index--] = 0;
+	while (index > 0)
+	{
+		res[index--] = (nbr % 10) + '0';
+		nbr /= 10;
+	}
+	if (n < 0)
+		res[0] = '-';
+	else
+		res[0] = nbr + '0';
+	return (res);
+}
 
 int	ft_strlen(const char *str)
 {
@@ -22,38 +68,6 @@ int	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
-}
-
-void	ft_putchar_fd(char c, int fd, int *count)
-{
-	write(fd, &c, 1);
-	(*count)++;
-}
-
-void	ft_putstr_fd(char *s, int fd, int *count)
-{
-	if (s)
-		while (*s)
-			ft_putchar_fd(*s++, fd, count);
-	else
-		ft_putstr_fd("(null)", fd, count);
-}
-
-void	ft_init_flags(int *flags)
-{
-	flags[_WIDTH_P] = 0;
-	flags[_WIDTH_S] = 0;
-	flags[_WIDTH_Z] = 0;
-	flags[_WIDTH_M] = 0;
-	flags[_LEN_VAR] = 0;
-	flags[_TYP_VAR] = 0;
-	flags[_SPACE] = 0;
-	flags[_POINT] = 0;
-	flags[_MINUS] = 0;
-	flags[_PLUS] = 0;
-	flags[_HASH] = 0;
-	flags[_ZERO] = 0;
-	flags[_NEG] = 0;
 }
 
 int	ft_atoi(char *nb)
