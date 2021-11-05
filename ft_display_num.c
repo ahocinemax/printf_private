@@ -74,13 +74,13 @@ void	ft_hexa(unsigned int ptr, int *flags, int *count)
 		ft_putnbr_hexa(ptr, count, flags);
 }
 
-void	ft_pointer(long ptr, int *flags, int *count)
+void	ft_pointer(unsigned long long ptr, int *flags, int *count)
 {
 	ft_count_hexa(ptr, flags);
 	flags[_LEN_VAR] += 2;
 	ft_putspace(flags, count, flags[_LEN_VAR]);
 	ft_putstr_fd("0x", _STD_OUT, count);
-	if (ptr == -1)
+	if ((long)ptr == -1)
 	{
 		ft_putstr_fd("ffffffffffffffff", _STD_OUT, count);
 		flags[_LEN_VAR] = 18;

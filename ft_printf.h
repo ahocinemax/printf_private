@@ -70,7 +70,7 @@ void	ft_display_text(va_list param, int *c, int *flags);
 // Utils
 
 void	ft_hexa(unsigned int ptr, int *flags, int *count);
-void	ft_pointer(long ptr, int *flags, int *count);
+void	ft_pointer(unsigned long long ptr, int *flags, int *count);
 void	ft_sign(int *res, int *flags, int *count);
 void	ft_long(long ptr, int *flags, int *count);
 void	ft_int(int res, int *flags, int *count);
@@ -86,7 +86,7 @@ char	*ft_itoa(long nb, int *flags);
 
 void	ft_putllong_fd(unsigned long long nbr, int fd, int *count);
 void	ft_putnbr_hexa(unsigned int nbr, int *count, int *flags);
-void	ft_putnbr_ptr(long nbr, int fd, int *count);
+void	ft_putnbr_ptr(unsigned long long nbr, int fd, int *count);
 void	ft_putspace(int *flags, int *count, int len);
 void	ft_putzero(int *flags, int *count, int len);
 void	ft_putchar_fd(char c, int fd, int *count);

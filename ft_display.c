@@ -28,7 +28,7 @@ void	ft_putnbr_hexa(unsigned int nbr, int *count, int *flags)
 	}
 }
 
-void	ft_putnbr_ptr(long nbr, int fd, int *count)
+void	ft_putnbr_ptr(unsigned long long nbr, int fd, int *count)
 {
 	if (nbr >= 16)
 	{
