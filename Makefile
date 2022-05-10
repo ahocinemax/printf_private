@@ -12,7 +12,7 @@
 
 NAME	=	libftprintf.a
 
-CFLAGS	=	-Wall -Werror -Wextra -c
+CFLAGS	=	-Wall -Wextra -c
 
 CC		=	gcc
 
@@ -27,7 +27,7 @@ OBJS	=	$(SRCS:.c=.o)
 all		: $(NAME)
 
 $(NAME)	: $(OBJS) $(INCLUDES)
-		@ar crs $@ $(OBJS)
+		ar crs $@ $(OBJS)
 
 %.o : %.c
 		@$(CC) $(CFLAGS) $< -o $@
@@ -36,7 +36,7 @@ clean	:
 		@rm -rf $(OBJS)
 
 fclean: clean
-	@rm -f $(NAME)
+		@rm -f $(NAME)
 
 bonus :         $(NAME)
 
