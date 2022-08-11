@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
 void	ft_putllong_fd(unsigned long long nbr, int fd, int *count)
 {
@@ -27,8 +27,6 @@ void	ft_putllong_fd(unsigned long long nbr, int fd, int *count)
 
 void	ft_putlong_fd(long n, int fd, int *count)
 {
-	if (n < 0)
-		n = -n;
 	if (n < 10)
 		ft_putchar_fd(n + '0', fd, count);
 	else
