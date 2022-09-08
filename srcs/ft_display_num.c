@@ -66,10 +66,7 @@ void	ft_hexa(unsigned int ptr, int *flags, int *count)
 		ft_putstr_fd("0X", _STD_OUT, count);
 	ft_putzero(flags, count, flags[_LEN_VAR]);
 	if (flags[_ZERO] != 2 && flags[_ZERO] && !flags[_WIDTH_Z] && !ptr)
-	{
-		flags[_LEN_VAR] = 0;
-		return ;
-	}
+		return (flags[_LEN_VAR] = 0, (void)0);
 	else
 		ft_putnbr_hexa(ptr, count, flags);
 }
